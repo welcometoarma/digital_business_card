@@ -587,8 +587,27 @@
                 return 'BEGIN:VCARD\nVERSION:4.0\nFN:' + name + '\nN:;' + name + ';;;\nTEL;TYPE=cell:' + phone + '\nADR;TYPE=home:;;' + address + '\nURL;TYPE=booking:' + url + '\nX-SOCIAL;TYPE=instagram:' + instagram + '\nEND:VCARD\n';
             }
 
+            // ===== Android-friendly vCard download =====
             function downloadVCard() {
-                const blob = new Blob([generateVCard()], { type: 'text/vcard;charset=utf-8' });
+                const vcardData = generateVCard();
+                const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });
+                
+                // Try native share on Android (works on Chrome for Android)
+                if (navigator.share && window.innerWidth < 768) {
+                    const file = new File([blob], 'mondello_beach_katie.vcf', { type: 'text/vcard' });
+                    navigator.share({
+                        title: 'Mondello Beach · Katie contact',
+                        files: [file]
+                    }).catch(err => {
+                        // Fallback if share fails
+                        fallbackDownload(blob);
+                    });
+                } else {
+                    fallbackDownload(blob);
+                }
+            }
+
+            function fallbackDownload(blob) {
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
@@ -608,44 +627,85 @@
             const pageUrl = 'https://welcometoarma.github.io/digital_business_card/';
             const shareText = '🌊 Mondello Beach · Vitamin Sea – book your stay in Palermo!';
 
+            // WhatsApp share - Android friendly
             document.getElementById('shareWhatsAppBtn').addEventListener('click', function() {
-                window.open('https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + pageUrl), '_blank');
+                const url = 'https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + pageUrl);
+                window.open(url, '_blank');
             });
 
+            // Email share - Android friendly
             document.getElementById('shareEmailBtn').addEventListener('click', function() {
-                window.location.href = 'mailto:?subject=' + encodeURIComponent('Mondello Beach · Vitamin Sea') + '&body=' + encodeURIComponent(shareText + '\n\n' + pageUrl);
+                const subject = encodeURIComponent('Mondello Beach · Vitamin Sea');
+                const body = encodeURIComponent(shareText + '\n\n' + pageUrl);
+                window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
             });
 
+            // Copy link - Android friendly with better feedback
             document.getElementById('copyLinkBtn').addEventListener('click', function() {
+                const btn = this;
+                const origText = btn.innerHTML;
+                
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     navigator.clipboard.writeText(pageUrl).then(() => {
-                        const orig = this.innerHTML;
-                        this.innerHTML = '✅ Copied!';
-                        setTimeout(() => { this.innerHTML = orig; }, 2000);
-                    }).catch(() => fallbackCopy(pageUrl));
+                        btn.innerHTML = '✅ Copied!';
+                        setTimeout(() => { btn.innerHTML = origText; }, 2000);
+                    }).catch(() => {
+                        // Fallback for Android
+                        fallbackCopy(pageUrl, btn, origText);
+                    });
                 } else {
-                    fallbackCopy(pageUrl);
+                    fallbackCopy(pageUrl, btn, origText);
                 }
             });
 
-            function fallbackCopy(text) {
+            function fallbackCopy(text, btn, origText) {
                 const ta = document.createElement('textarea');
                 ta.value = text;
                 ta.style.position = 'fixed';
                 ta.style.left = '-9999px';
+                ta.style.top = '-9999px';
+                ta.style.width = '1px';
+                ta.style.height = '1px';
+                ta.style.opacity = '0';
                 document.body.appendChild(ta);
                 ta.select();
                 try {
-                    document.execCommand('copy');
-                    const btn = document.getElementById('copyLinkBtn');
-                    const orig = btn.innerHTML;
-                    btn.innerHTML = '✅ Copied!';
-                    setTimeout(() => { btn.innerHTML = orig; }, 2000);
+                    const success = document.execCommand('copy');
+                    if (success) {
+                        btn.innerHTML = '✅ Copied!';
+                        setTimeout(() => { btn.innerHTML = origText; }, 2000);
+                    } else {
+                        // On Android, sometimes execCommand fails, try to show the link
+                        if (navigator.share) {
+                            navigator.share({
+                                title: 'Mondello Beach',
+                                text: shareText,
+                                url: pageUrl
+                            }).catch(() => {});
+                        } else {
+                            alert('Copy failed. Please copy manually:\n' + text);
+                        }
+                    }
                 } catch (e) {
-                    alert('Copy failed. Please copy manually: ' + text);
+                    // Final fallback: try to share
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'Mondello Beach',
+                            text: shareText,
+                            url: pageUrl
+                        }).catch(() => {
+                            alert('Copy failed. Please copy manually:\n' + text);
+                        });
+                    } else {
+                        alert('Copy failed. Please copy manually:\n' + text);
+                    }
                 }
                 document.body.removeChild(ta);
             }
+
+            // ===== Additional Android fix: ensure links open correctly =====
+            // All links already use target="_blank" which works on Android Chrome
+            // WhatsApp link uses wa.me which works on all devices
 
         })();
     </script>
