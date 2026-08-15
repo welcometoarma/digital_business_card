@@ -496,11 +496,11 @@
                 </a>
             </div>
 
-            <!-- ADD CONTACT - Now saves directly without downloading -->
+            <!-- ADD CONTACT - Direct save to contacts -->
             <div class="add-contact-wrap">
                 <button class="add-contact-btn" id="addContactBtn">
                     <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/><path d="M19 13h-2v3h-3v2h3v3h2v-3h3v-2h-3z"/></svg>
-                    Save Katie to Contacts
+                    Add to Contacts
                 </button>
             </div>
 
@@ -584,102 +584,165 @@
                 url: 'https://airbnb.com/h/mondellobeachvitaminsea'
             };
 
-            // ===== Generate vCard as data URI (for direct import) =====
-            function generateVCardData() {
-                const vcard = [
+            // ===== Generate complete vCard =====
+            function generateVCard() {
+                return [
                     'BEGIN:VCARD',
-                    'VERSION:4.0',
+                    'VERSION:3.0',
                     'FN:' + contactData.name,
                     'N:;' + contactData.name + ';;;',
-                    'TEL;TYPE=cell:' + contactData.phone,
+                    'TEL;TYPE=CELL:' + contactData.phone,
                     'EMAIL:' + contactData.email,
-                    'ADR;TYPE=home:;;' + contactData.address.replace(/,/g, ';'),
-                    'URL;TYPE=booking:' + contactData.url,
-                    'X-SOCIAL;TYPE=instagram:' + contactData.instagram,
+                    'ADR;TYPE=HOME:;;' + contactData.address.replace(/,/g, ';'),
+                    'URL;TYPE=BOOKING:' + contactData.url,
+                    'NOTE:Instagram: ' + contactData.instagram,
                     'END:VCARD'
                 ].join('\n');
-                return 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
             }
 
-            // ===== Main "Save Contact" function - NO DOWNLOAD =====
+            // ===== SAVE CONTACT DIRECTLY - NO DOWNLOAD =====
             function saveContactDirectly() {
-                const vcardUri = generateVCardData();
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                const isAndroid = /Android/.test(navigator.userAgent);
                 
-                // For Android: Use Web Share API to save contact
-                if (navigator.share && window.innerWidth < 768) {
-                    // Try to share as vCard file
-                    const vcardText = decodeURIComponent(vcardUri.split(',')[1]);
-                    const blob = new Blob([vcardText], { type: 'text/vcard;charset=utf-8' });
-                    const file = new File([blob], 'katie_mondello.vcf', { type: 'text/vcard' });
+                // For iOS: Use the standard vCard opening method (iOS prompts to add to contacts)
+                if (isIOS) {
+                    const vcardData = generateVCard();
+                    const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
                     
-                    navigator.share({
-                        title: 'Save Katie\'s Contact',
-                        files: [file]
-                    }).catch(err => {
-                        // If share fails, use the fallback
-                        fallbackSaveContact(vcardUri);
-                    });
-                } else {
-                    // iOS / Desktop fallback: Open vCard in new tab (iOS will prompt to save)
-                    fallbackSaveContact(vcardUri);
-                }
-            }
-
-            function fallbackSaveContact(vcardUri) {
-                // For iOS: Opening a vCard in a new window triggers "Add to Contacts"
-                // For Android Chrome: This will download, but we also try the intent method
-                const isAndroid = /Android/i.test(navigator.userAgent);
-                
-                if (isAndroid) {
-                    // Android special: use intent:// to open contact picker
-                    try {
-                        // Try to use the contacts intent
-                        const intentUrl = 'intent://contact/#Intent;action=android.intent.action.INSERT;type=vnd.android.cursor.dir/contact;end';
-                        window.open(intentUrl, '_blank');
-                        // Also open vCard as fallback
-                        setTimeout(() => {
-                            window.open(vcardUri, '_blank');
-                        }, 500);
-                    } catch (e) {
-                        window.open(vcardUri, '_blank');
-                    }
-                } else {
-                    // iOS: open vCard in new window
-                    const win = window.open(vcardUri, '_blank');
+                    // Open vCard in new window - iOS will show "Add to Contacts" prompt
+                    const win = window.open(url, '_blank');
                     if (!win) {
-                        // If popup blocked, create a link and click it
+                        // If popup blocked, use link click
                         const link = document.createElement('a');
-                        link.href = vcardUri;
+                        link.href = url;
                         link.download = 'katie_mondello.vcf';
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
                     }
+                    
+                    // Clean up after delay
+                    setTimeout(() => { URL.revokeObjectURL(url); }, 5000);
+                    return;
+                }
+                
+                // For Android: Use multiple methods for better compatibility
+                if (isAndroid) {
+                    // Try Web Share API first (Android Chrome 80+)
+                    if (navigator.share) {
+                        const vcardText = generateVCard();
+                        const blob = new Blob([vcardText], { type: 'text/vcard;charset=utf-8' });
+                        const file = new File([blob], 'katie_mondello.vcf', { type: 'text/vcard' });
+                        
+                        navigator.share({
+                            title: 'Save Katie\'s Contact',
+                            files: [file]
+                        }).catch(err => {
+                            // If share fails, fallback to Android intent
+                            androidContactIntent();
+                        });
+                        return;
+                    }
+                    
+                    // Fallback: Android Intent for contact picker
+                    androidContactIntent();
+                    return;
+                }
+                
+                // Desktop fallback: show vCard for download
+                const vcardData = generateVCard();
+                const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'katie_mondello.vcf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                setTimeout(() => { URL.revokeObjectURL(url); }, 5000);
+            }
+
+            // ===== Android Contact Intent =====
+            function androidContactIntent() {
+                // Method 1: Use intent:// to open contact picker with pre-filled data
+                try {
+                    // This intent tries to open the contact editor directly
+                    const intentUrl = 'intent://contact/#Intent;action=android.intent.action.INSERT;type=vnd.android.cursor.dir/contact;end';
+                    const win = window.open(intentUrl, '_blank');
+                    
+                    // If intent doesn't work, try alternative
+                    if (!win) {
+                        androidVCardFallback();
+                    }
+                } catch (e) {
+                    androidVCardFallback();
                 }
             }
 
-            // ===== Alternative: Use Web Contacts API (where supported) =====
-            function saveContactWithAPI() {
-                if ('contacts' in navigator && 'select' in navigator.contacts) {
-                    // Modern Contact Picker API (Android Chrome 80+)
-                    // We'll use the fallback method as it's more reliable across devices
-                    saveContactDirectly();
-                } else {
-                    saveContactDirectly();
+            // ===== Android vCard fallback =====
+            function androidVCardFallback() {
+                // Generate and open vCard - Android will usually handle it
+                const vcardData = generateVCard();
+                const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                
+                // Try to open in new window
+                const win = window.open(url, '_blank');
+                if (!win) {
+                    // If popup blocked, use download link
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'katie_mondello.vcf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
                 }
+                
+                setTimeout(() => { URL.revokeObjectURL(url); }, 5000);
+                
+                // Also try to open via data URI as fallback
+                setTimeout(() => {
+                    try {
+                        const dataUri = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcardData);
+                        window.open(dataUri, '_blank');
+                    } catch (e) {
+                        // Silent fail
+                    }
+                }, 1000);
             }
 
-            // ===== Button click handler =====
+            // ===== Click handler =====
             document.getElementById('addContactBtn').addEventListener('click', function(e) {
                 e.stopPropagation();
-                saveContactWithAPI();
+                
+                const btn = this;
+                const originalHTML = btn.innerHTML;
                 
                 // Visual feedback
-                const btn = this;
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '👤 Opening Contacts...';
+                btn.innerHTML = '⏳ Opening Contacts...';
+                btn.style.opacity = '0.8';
+                
+                try {
+                    saveContactDirectly();
+                } catch (error) {
+                    console.error('Contact save error:', error);
+                    // Try fallback
+                    try {
+                        const vcard = generateVCard();
+                        const dataUri = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
+                        window.open(dataUri, '_blank');
+                    } catch (e2) {
+                        alert('Please copy the contact information manually.');
+                    }
+                }
+                
+                // Reset button after 3 seconds
                 setTimeout(() => {
-                    btn.innerHTML = originalText;
+                    btn.innerHTML = originalHTML;
+                    btn.style.opacity = '1';
                 }, 3000);
             });
 
