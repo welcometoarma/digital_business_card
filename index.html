@@ -748,17 +748,39 @@
 
             // ===== SHARE =====
             const pageUrl = 'https://welcometoarma.github.io/digital_business_card/';
-            const shareText = '🌊 Mondello Beach · Vitamin Sea – book your stay in Palermo!';
+            
+            // Plain text without emojis for better Android compatibility
+            const shareText = 'Mondello Beach · Vitamin Sea – book your stay in Palermo!';
 
             document.getElementById('shareWhatsAppBtn').addEventListener('click', function() {
+                // WhatsApp works fine with emojis, but we keep it clean
                 const url = 'https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + pageUrl);
                 window.open(url, '_blank');
             });
 
+            // ===== FIXED EMAIL SHARE FOR ANDROID =====
             document.getElementById('shareEmailBtn').addEventListener('click', function() {
-                const subject = encodeURIComponent('Mondello Beach · Vitamin Sea');
-                const body = encodeURIComponent(shareText + '\n\n' + pageUrl);
-                window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
+                // Use plain ASCII characters for subject and body - Android compatible
+                const subject = 'Mondello Beach · Vitamin Sea';
+                // Clean body text without emojis or special characters
+                const body = 'Mondello Beach - Vitamin Sea\n\nBook your stay in Palermo!\n\n' + pageUrl;
+                
+                // Use mailto: with properly encoded parameters
+                const mailtoLink = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+                
+                // For Android, try to open with a small delay to ensure it works
+                if (/Android/.test(navigator.userAgent)) {
+                    // Android sometimes needs a slightly different approach
+                    try {
+                        window.location.href = mailtoLink;
+                    } catch (e) {
+                        // Fallback: open in new window
+                        window.open(mailtoLink, '_blank');
+                    }
+                } else {
+                    // iOS and desktop
+                    window.location.href = mailtoLink;
+                }
             });
 
             document.getElementById('copyLinkBtn').addEventListener('click', function() {
