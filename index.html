@@ -5,382 +5,299 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Mondello Beach · Digital Card</title>
 
-    <!-- ===== ADD TO HOME SCREEN (iOS / Android) ===== -->
+    <!-- ===== ADD TO HOME SCREEN ===== -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Mondello Beach" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23254470'/%3E%3Ccircle cx='100' cy='100' r='70' fill='%23B9791E'/%3E%3Ctext x='100' y='115' font-family='Fraunces,serif' font-size='70' font-weight='700' fill='%23F7F1E2' text-anchor='middle'%3EMB%3C/text%3E%3C/svg%3E" />
-    <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23254470'/%3E%3Ccircle cx='100' cy='100' r='70' fill='%23B9791E'/%3E%3Ctext x='100' y='115' font-family='Fraunces,serif' font-size='70' font-weight='700' fill='%23F7F1E2' text-anchor='middle'%3EMB%3C/text%3E%3C/svg%3E" type="image/svg+xml" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300..900;1,300..900&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
     <style>
-        /* ===== ROOT ===== */
+        /* ===== REFRESHED PALETTE ===== 
+             Deep navy · warm terracotta · soft gold · limestone 
+        =============================== */
         :root {
-            --blue-deep: #1B3358;
-            --blue-mid: #254470;
-            --gold: #B9791E;
-            --gold-light: #E3B463;
-            --gold-glow: rgba(185, 121, 30, 0.35);
-            --maroon: #7A2333;
-            --cream: #F7F1E2;
-            --paper: #FDFBF4;
-            --teal: #48C9B0;
-            --glass-bg: rgba(255, 255, 255, 0.06);
-            --glass-border: rgba(255, 255, 255, 0.10);
+            --sea-deep:       #1A3A4A;
+            --sea-mid:        #2C5F6E;
+            --terracotta:     #D97A3E;
+            --terracotta-lt:  #E8A06B;
+            --lemon:          #E0B05A;
+            --lemon-lt:       #F3DBA6;
+            --limestone:      #F6EFE1;
+            --paper:          #FFFDF7;
+            --ink:            #0B2327;
+            --glass-bg:       rgba(255,255,255,0.05);
+            --glass-border:   rgba(255,255,255,0.08);
+            --brand-whatsapp: #25D366;
+            --brand-contact:  #4C8DFF;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :focus-visible { outline: 2px solid var(--lemon-lt); outline-offset: 2px; }
 
         body {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 24px 16px 40px;
-            font-family: 'Jost', sans-serif;
-            background: #0f1a2f;
-            background-image:
-                radial-gradient(circle at 10% 20%, rgba(72, 201, 176, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(241, 196, 15, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(27, 51, 88, 0.9) 0%, #0a1220 100%);
-            animation: meshMove 18s ease-in-out infinite alternate;
+            padding: 16px;
+            font-family: 'Manrope', sans-serif;
+            background: #0E1F28;
+            background-image: radial-gradient(circle at 50% 50%, rgba(26,58,74,0.95) 0%, #07141C 100%);
         }
 
-        @keyframes meshMove {
-            0% {
-                background-position: 0% 0%;
-            }
-            100% {
-                background-position: 100% 100%;
-            }
-        }
-
-        /* floating orbs */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            animation: floatOrb 25s infinite linear;
-        }
-        .orb:nth-child(1) {
-            width: 100px;
-            height: 100px;
-            top: 5%;
-            left: 3%;
-            background: rgba(227, 180, 99, 0.08);
-            animation-duration: 28s;
-        }
-        .orb:nth-child(2) {
-            width: 160px;
-            height: 160px;
-            bottom: 8%;
-            right: 2%;
-            background: rgba(72, 201, 176, 0.06);
-            animation-duration: 35s;
-        }
-        .orb:nth-child(3) {
-            width: 70px;
-            height: 70px;
-            top: 55%;
-            left: 88%;
-            background: rgba(241, 196, 15, 0.07);
-            animation-duration: 20s;
-        }
-        .orb:nth-child(4) {
-            width: 130px;
-            height: 130px;
-            bottom: 25%;
-            left: 5%;
-            background: rgba(185, 121, 30, 0.04);
-            animation-duration: 32s;
-        }
-
-        @keyframes floatOrb {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(40px, -30px) scale(1.1);
-            }
-            66% {
-                transform: translate(-20px, 25px) scale(0.9);
-            }
-            100% {
-                transform: translate(10px, -15px) scale(1);
-            }
-        }
-
-        /* ===== CARD ===== */
+        /* ===== CARD – STANDARD BUSINESS CARD SIZE ===== */
         .card {
-            max-width: 440px;
+            max-width: 360px;
             width: 100%;
-            border-radius: 32px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(227, 180, 99, 0.08);
-            background: var(--cream);
-            position: relative;
-            z-index: 1;
-            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(224,176,90,0.10);
+            background: var(--limestone);
+            transition: transform 0.2s ease;
         }
-        .card:hover {
-            transform: translateY(-4px);
-        }
+        .card:hover { transform: scale(1.01); }
 
-        /* ===== FRONT (header) ===== */
+        /* ===== FRONT ===== */
         .card-front {
-            padding: 36px 28px 28px;
-            background: var(--cream);
-            position: relative;
-            overflow: hidden;
+            padding: 24px 20px 16px;
+            background: var(--limestone);
             text-align: center;
+            position: relative;
         }
         .card-front .pattern {
             position: absolute;
             inset: 0;
-            opacity: 0.4;
+            opacity: 0.25;
             background-image:
-                repeating-linear-gradient(45deg, transparent 0 8px, rgba(37, 68, 112, 0.04) 8px 8.5px),
-                repeating-linear-gradient(-45deg, transparent 0 8px, rgba(37, 68, 112, 0.04) 8px 8.5px);
+                repeating-linear-gradient(45deg, transparent 0 6px, rgba(44,95,110,0.04) 6px 6.5px),
+                repeating-linear-gradient(-45deg, transparent 0 6px, rgba(44,95,110,0.04) 6px 6.5px);
             pointer-events: none;
         }
-        .front-content {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+        .front-content { position: relative; z-index: 2; }
 
         .medallion {
-            width: 110px;
-            height: 110px;
+            width: 76px;
+            height: 76px;
             border-radius: 50%;
             overflow: hidden;
-            box-shadow: 0 0 0 4px rgba(185, 121, 30, 0.35), 0 0 40px rgba(185, 121, 30, 0.15);
-            margin-bottom: 16px;
+            margin: 0 auto 10px;
+            box-shadow: 0 0 0 3px rgba(217,122,62,0.25), 0 0 24px rgba(224,176,90,0.12);
             background: #d4c9b0;
-            flex-shrink: 0;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            animation: floatMed 4s ease-in-out infinite;
+            transition: transform 0.3s ease;
         }
-        .medallion:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 0 6px rgba(185, 121, 30, 0.5), 0 0 60px rgba(185, 121, 30, 0.2);
-        }
-        @keyframes floatMed {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-        .medallion img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+        .medallion:hover { transform: scale(1.04); }
+        .medallion img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
         .badge {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.28em;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--gold);
-            background: rgba(185, 121, 30, 0.10);
-            padding: 4px 16px;
-            border-radius: 40px;
+            color: var(--terracotta);
+            background: rgba(217,122,62,0.10);
+            padding: 3px 14px;
+            border-radius: 30px;
             display: inline-block;
-            backdrop-filter: blur(4px);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
-
         .brand {
             font-family: 'Fraunces', serif;
             font-weight: 700;
-            font-size: 30px;
-            line-height: 1.05;
-            color: var(--blue-mid);
-            letter-spacing: 0.02em;
+            font-size: 24px;
+            line-height: 1.0;
+            color: var(--sea-mid);
+            letter-spacing: 0.01em;
         }
         .brand-script {
             font-family: 'Fraunces', serif;
             font-weight: 500;
             font-style: italic;
-            font-size: 22px;
-            color: var(--maroon);
-            margin-top: -2px;
+            font-size: 17px;
+            color: var(--terracotta);
+            margin-top: -1px;
         }
         .rule {
-            width: 64px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--gold), var(--gold-light));
-            margin: 12px auto;
+            width: 44px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--terracotta), var(--lemon));
+            margin: 8px auto 4px;
             border-radius: 4px;
-            box-shadow: 0 0 20px var(--gold-glow);
         }
         .sub {
-            font-size: 13px;
-            font-weight: 400;
-            letter-spacing: 0.14em;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--blue-mid);
-            opacity: 0.65;
+            color: var(--sea-mid);
+            opacity: 0.7;
         }
         .host-tag {
-            margin-top: 14px;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--blue-mid);
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(4px);
-            padding: 6px 20px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin-top: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--sea-mid);
+            background: rgba(255,255,255,0.6);
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.5);
+            display: inline-block;
         }
-        .host-tag b {
-            color: var(--maroon);
-            font-weight: 700;
-        }
+        .host-tag b { color: var(--terracotta); font-weight: 800; }
 
-        /* ===== BACK (details) – always visible ===== */
+        /* ===== BACK ===== */
         .card-back {
-            padding: 24px 24px 28px;
-            background: var(--blue-deep);
-            background-image:
-                radial-gradient(circle at 20% 30%, rgba(72, 201, 176, 0.06), transparent 60%),
-                radial-gradient(circle at 80% 70%, rgba(185, 121, 30, 0.05), transparent 50%);
+            padding: 16px 18px 20px;
+            background: var(--sea-deep);
+            background-image: radial-gradient(circle at 20% 20%, rgba(58,139,122,0.06), transparent 60%);
         }
 
         .back-header {
-            margin-bottom: 14px;
             display: flex;
             align-items: baseline;
             justify-content: space-between;
+            margin-bottom: 12px;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 2px;
         }
         .back-eyebrow {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.25em;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--gold-light);
+            color: var(--lemon-lt);
             opacity: 0.7;
         }
         .back-name {
             font-family: 'Fraunces', serif;
             font-style: italic;
             font-weight: 600;
-            font-size: 26px;
+            font-size: 22px;
             color: var(--paper);
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 2px 12px rgba(0,0,0,0.2);
         }
 
-        /* ===== BOOK NOW RIBBON ===== */
-        .book-now-wrap {
-            margin: 4px 0 16px 0;
-            display: flex;
-            justify-content: center;
-        }
+        /* ===== BOOK NOW ===== */
+        .book-now-wrap { margin-bottom: 10px; }
         .book-now-link {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            justify-content: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--terracotta), var(--lemon));
             color: #fff;
             font-weight: 700;
-            font-size: 16px;
-            padding: 10px 24px;
-            border-radius: 60px;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 40px;
             text-decoration: none;
-            box-shadow: 0 4px 24px rgba(185, 121, 30, 0.4);
-            transition: all 0.25s ease;
-            letter-spacing: 0.02em;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 18px rgba(217,122,62,0.3);
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.10);
             width: 100%;
-            justify-content: center;
         }
         .book-now-link:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 12px 40px rgba(185, 121, 30, 0.5);
-            background: linear-gradient(135deg, #c98a22, #ecc070);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(217,122,62,0.4);
         }
         .book-now-link svg {
-            width: 22px;
-            height: 22px;
+            width: 18px;
+            height: 18px;
             fill: currentColor;
             flex-shrink: 0;
         }
 
-        /* contact rows */
+        /* ===== ADD CONTACT ===== */
+        .add-contact-wrap { margin-bottom: 10px; }
+        .add-contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(76,141,255,0.12);
+            color: var(--paper);
+            font-weight: 700;
+            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            border: 1px solid rgba(76,141,255,0.25);
+            transition: all 0.2s ease;
+            width: 100%;
+            font-family: 'Manrope', sans-serif;
+        }
+        .add-contact-btn:hover {
+            background: rgba(76,141,255,0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(76,141,255,0.15);
+        }
+        .add-contact-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--brand-contact);
+            flex-shrink: 0;
+        }
+
+        /* ===== CONTACT ROWS ===== */
         .contact-row {
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 12px;
+            gap: 12px;
+            margin-bottom: 6px;
             background: var(--glass-bg);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            padding: 10px 16px;
-            border-radius: 16px;
+            padding: 7px 14px;
+            border-radius: 14px;
             border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-            cursor: default;
+            transition: all 0.2s ease;
         }
         .contact-row:hover {
-            background: rgba(255, 255, 255, 0.10);
-            transform: translateX(4px);
-            border-color: rgba(227, 180, 99, 0.2);
+            background: rgba(255,255,255,0.08);
+            transform: translateX(3px);
+            border-color: rgba(224,176,90,0.2);
         }
         .contact-row .icon {
-            width: 28px;
-            height: 28px;
+            width: 34px;
+            height: 34px;
             flex-shrink: 0;
-            filter: drop-shadow(0 0 6px rgba(227, 180, 99, 0.2));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .contact-row .icon svg {
-            width: 100%;
-            height: 100%;
-            stroke: var(--gold-light);
+            width: 18px;
+            height: 18px;
             stroke-width: 1.8;
             fill: none;
         }
-        .contact-row .icon svg .fill-gold {
-            fill: var(--gold-light);
+        .icon-whatsapp { background: rgba(37,211,102,0.14); }
+        .icon-whatsapp svg { stroke: var(--brand-whatsapp); }
+        .icon-maps { background: rgba(234,67,53,0.14); }
+        .icon-maps svg { stroke: #EA4335; }
+        .icon-instagram { 
+            background: linear-gradient(135deg, #F58529, #DD2A7B, #8134AF);
         }
+        .icon-instagram svg { stroke: #fff; }
 
-        .contact-text {
-            flex: 1;
-            min-width: 0;
-        }
+        .contact-text { flex: 1; min-width: 0; }
         .contact-label {
-            font-size: 9px;
+            font-size: 8px;
             font-weight: 700;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--gold-light);
-            opacity: 0.65;
+            color: var(--lemon-lt);
+            opacity: 0.6;
             display: block;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
         .contact-value {
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 400;
             color: var(--paper);
-            line-height: 1.4;
+            line-height: 1.3;
             word-break: break-word;
         }
         .contact-value a {
@@ -389,320 +306,121 @@
             transition: color 0.2s;
             font-weight: 500;
         }
-        .contact-value a:hover {
-            color: var(--gold-light);
-        }
+        .contact-value a:hover { color: var(--lemon-lt); }
 
-        /* save-contact button inside row (compact) */
-        .save-contact-row-btn {
-            background: rgba(227, 180, 99, 0.12);
-            border: 1px solid rgba(227, 180, 99, 0.2);
-            border-radius: 40px;
-            padding: 6px 14px 6px 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-family: 'Jost', sans-serif;
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--gold-light);
-            cursor: pointer;
-            transition: all 0.25s ease;
-            backdrop-filter: blur(4px);
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .save-contact-row-btn:hover {
-            background: rgba(227, 180, 99, 0.25);
-            border-color: var(--gold-light);
-            transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(227, 180, 99, 0.15);
-        }
-        .save-contact-row-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-            flex-shrink: 0;
-        }
-
-        /* ===== BUTTONS inside card back ===== */
-        .back-actions {
+        /* ===== RATING ===== */
+        .rating-wrap {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            align-items: center;
             gap: 12px;
-            margin-top: 18px;
-            padding-top: 6px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 8px 14px;
+            margin: 6px 0 10px;
         }
-
-        .btn {
-            font-family: 'Jost', sans-serif;
-            font-size: 14px;
+        .rating-score {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: 26px;
+            color: var(--lemon-lt);
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .rating-text {
+            font-size: 12px;
             font-weight: 600;
-            padding: 12px 24px;
-            border-radius: 60px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            color: var(--paper);
+        }
+        .rating-sub {
+            font-size: 10px;
+            color: var(--paper);
+            opacity: 0.6;
+        }
+        .rating-link {
+            color: var(--lemon-lt);
             text-decoration: none;
-            letter-spacing: 0.02em;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
-            flex: 1 1 auto;
-            justify-content: center;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            color: #fff;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 12px 40px rgba(185, 121, 30, 0.4);
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, var(--teal), #1ABC9C);
-            color: #fff;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-        }
-        .btn-secondary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 12px 40px rgba(72, 201, 176, 0.4);
-        }
-
-        .btn svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
+            font-weight: 600;
+            font-size: 11px;
+            margin-left: auto;
             flex-shrink: 0;
         }
+        .rating-link:hover { text-decoration: underline; }
 
-        /* ===== SHARE SECTION (new) ===== */
+        /* ===== SHARE ===== */
         .share-section {
-            margin-top: 16px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
         }
         .share-btn {
-            font-family: 'Jost', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            padding: 10px 20px;
-            border-radius: 60px;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            font-size: 10px;
+            padding: 5px 10px;
+            border-radius: 30px;
             border: none;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 4px;
             text-decoration: none;
             letter-spacing: 0.02em;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
-            flex: 1 1 auto;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+            flex: 1;
             justify-content: center;
             color: #fff;
+            transition: all 0.2s ease;
         }
         .share-btn svg {
-            width: 20px;
-            height: 20px;
+            width: 14px;
+            height: 14px;
             fill: currentColor;
             flex-shrink: 0;
         }
-        .share-btn-whatsapp {
-            background: #25D366;
-        }
-        .share-btn-whatsapp:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
-        }
-        .share-btn-email {
-            background: #EA4335;
-        }
-        .share-btn-email:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(234, 67, 53, 0.4);
-        }
-        .share-btn-copy {
-            background: #6c7a89;
-        }
-        .share-btn-copy:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(108, 122, 137, 0.4);
-        }
+        .share-btn-whatsapp { background: #25D366; }
+        .share-btn-whatsapp:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,211,102,0.3); }
+        .share-btn-email { background: var(--terracotta); }
+        .share-btn-email:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(217,122,62,0.3); }
+        .share-btn-copy { background: #5b6b70; }
+        .share-btn-copy:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(91,107,112,0.3); }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .card {
-                border-radius: 24px;
-            }
-            .card-front {
-                padding: 28px 20px 22px;
-            }
-            .medallion {
-                width: 90px;
-                height: 90px;
-            }
-            .brand {
-                font-size: 26px;
-            }
-            .brand-script {
-                font-size: 18px;
-            }
-            .card-back {
-                padding: 18px 16px 22px;
-            }
-            .back-name {
-                font-size: 22px;
-            }
-            .contact-value {
-                font-size: 14px;
-            }
-            .contact-row {
-                padding: 10px 14px;
-                gap: 12px;
-            }
-            .save-contact-row-btn {
-                font-size: 12px;
-                padding: 4px 10px 4px 8px;
-            }
-            .save-contact-row-btn svg {
-                width: 16px;
-                height: 16px;
-            }
-            .btn {
-                font-size: 13px;
-                padding: 10px 16px;
-            }
-            .book-now-link {
-                font-size: 14px;
-                padding: 8px 18px;
-            }
-            .book-now-link svg {
-                width: 18px;
-                height: 18px;
-            }
-            .share-btn {
-                font-size: 13px;
-                padding: 8px 14px;
-            }
-            .share-btn svg {
-                width: 18px;
-                height: 18px;
-            }
+        @media (max-width: 400px) {
+            .card { max-width: 100%; }
+            .medallion { width: 64px; height: 64px; }
+            .brand { font-size: 20px; }
+            .brand-script { font-size: 15px; }
+            .back-name { font-size: 19px; }
+            .contact-value { font-size: 12px; }
+            .book-now-link { font-size: 13px; padding: 7px 14px; }
+            .add-contact-btn { font-size: 12px; padding: 7px 14px; }
         }
 
-        @media (max-width: 380px) {
-            .medallion {
-                width: 76px;
-                height: 76px;
-            }
-            .brand {
-                font-size: 22px;
-            }
-            .brand-script {
-                font-size: 16px;
-            }
-            .contact-value {
-                font-size: 13px;
-            }
-            .btn {
-                font-size: 12px;
-                padding: 8px 14px;
-            }
-            .btn svg {
-                width: 18px;
-                height: 18px;
-            }
-        }
-
-        /* ===== PRINT ===== */
         @media print {
-            body {
-                background: #fff !important;
-                padding: 10px;
-            }
-            .orb {
-                display: none !important;
-            }
-            .card {
-                box-shadow: 0 0 0 1px #ccc !important;
-                border-radius: 16px;
-                max-width: 100%;
-            }
-            .back-actions,
-            .share-section {
-                display: none !important;
-            }
-            .save-contact-row-btn {
-                display: none !important;
-            }
-            .book-now-link {
-                background: #B9791E !important;
-                color: #fff !important;
-                box-shadow: none !important;
-                border: 1px solid #888 !important;
-            }
-            .contact-row {
-                background: rgba(0, 0, 0, 0.03) !important;
-                backdrop-filter: none !important;
-                -webkit-backdrop-filter: none !important;
-                border: 1px solid #ddd !important;
-            }
-            .contact-value a {
-                color: #1B3358 !important;
-            }
-            .card-back {
-                background: #f5f5f5 !important;
-                background-image: none !important;
-            }
-            .back-name {
-                color: #1B3358 !important;
-            }
-            .back-eyebrow {
-                color: #B9791E !important;
-            }
-            .contact-label {
-                color: #B9791E !important;
-            }
-            .card-front {
-                background: #F7F1E2 !important;
-            }
-            .badge {
-                background: rgba(185, 121, 30, 0.10) !important;
-            }
-            .host-tag {
-                background: rgba(255, 255, 255, 0.5) !important;
-            }
+            body { background: #fff !important; padding: 4px; }
+            .card { box-shadow: 0 0 0 1px #ccc !important; max-width: 100%; }
+            .share-section { display: none !important; }
+            .book-now-link { background: #D97A3E !important; color: #fff !important; box-shadow: none !important; border: 1px solid #888 !important; }
+            .contact-row, .rating-wrap { background: rgba(0,0,0,0.02) !important; border: 1px solid #ddd !important; }
+            .contact-value a { color: #1A3A4A !important; }
+            .card-back { background: #f5f5f5 !important; }
+            .back-name { color: #1A3A4A !important; }
         }
     </style>
 </head>
 <body>
 
-    <!-- decorative orbs -->
-    <div class="orb"></div>
-    <div class="orb"></div>
-    <div class="orb"></div>
-    <div class="orb"></div>
-
-    <!-- ===== CARD ===== -->
-    <div class="card" id="card">
+    <div class="card">
 
         <!-- ===== FRONT ===== -->
         <div class="card-front">
             <div class="pattern"></div>
             <div class="front-content">
                 <div class="medallion">
-                    <img id="logoImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Ccircle cx='100' cy='100' r='90' fill='%23254470'/%3E%3Ccircle cx='100' cy='100' r='70' fill='%23B9791E'/%3E%3Ctext x='100' y='115' font-family='Fraunces,serif' font-size='70' font-weight='700' fill='%23F7F1E2' text-anchor='middle'%3EMB%3C/text%3E%3C/svg%3E" alt="Mondello Beach logo" />
+                    <img src="logo.jpg" alt="Mondello Beach" />
                 </div>
-                <div class="badge">Airbnb · Palermo, Sicilia</div>
+                <div class="badge">Airbnb · Palermo</div>
                 <div class="brand">MONDELLO BEACH</div>
                 <div class="brand-script">Vitamin Sea</div>
                 <div class="rule"></div>
@@ -711,14 +429,15 @@
             </div>
         </div>
 
-        <!-- ===== BACK (always visible) ===== -->
+        <!-- ===== BACK ===== -->
         <div class="card-back">
+
             <div class="back-header">
                 <span class="back-eyebrow">Your Superhost</span>
                 <span class="back-name">Katie</span>
             </div>
 
-            <!-- ===== BOOK NOW ===== -->
+            <!-- BOOK NOW -->
             <div class="book-now-wrap">
                 <a href="https://airbnb.com/h/mondellobeachvitaminsea" target="_blank" class="book-now-link">
                     <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -726,55 +445,78 @@
                 </a>
             </div>
 
-            <!-- ===== CONTACT ROWS (order: WhatsApp, Address, Instagram) ===== -->
-            <!-- WhatsApp row + save contact button -->
+            <!-- ADD CONTACT -->
+            <div class="add-contact-wrap">
+                <button class="add-contact-btn" id="addContactBtn">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/><path d="M19 13h-2v3h-3v2h3v3h2v-3h3v-2h-3z"/></svg>
+                    Add Katie to Contacts
+                </button>
+            </div>
+
+            <!-- WHATSAPP -->
             <div class="contact-row">
-                <div class="icon">
-                    <svg viewBox="0 0 32 32"><path d="M16 2C8.3 2 2 8.3 2 16c0 2.8.8 5.5 2.3 7.8L2 30l6.4-2.2C10.6 29.2 13.2 30 16 30c7.7 0 14-6.3 14-14S23.7 2 16 2z" stroke="#E3B463" stroke-width="1.6"/><path d="M11.7 11.2c.3-.7.6-.7 1-.7.3 0 .6 0 .8.03.3.03.5.13.7.6.2.5.7 1.8.8 1.9.1.2.1.4 0 .6-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.9 1.5 1.9 2.4 3.4 3.1.2.1.4.1.6-.1.2-.2.6-.7.8-.9.2-.2.4-.2.6-.1.2.1 1.5.7 1.8.9.3.1.5.2.5.4.1.2.1 1-.2 1.7-.4.7-1.6 1.3-2.2 1.4-.6.1-1.2.2-3.9-.9-3.3-1.4-5.4-4.7-5.6-4.9-.2-.3-1.3-1.8-1.3-3.4 0-1.7.9-2.5 1.2-2.8z" fill="#E3B463"/></svg>
+                <div class="icon icon-whatsapp">
+                    <svg viewBox="0 0 32 32"><path d="M16 2C8.3 2 2 8.3 2 16c0 2.8.8 5.5 2.3 7.8L2 30l6.4-2.2C10.6 29.2 13.2 30 16 30c7.7 0 14-6.3 14-14S23.7 2 16 2z"/><path d="M11.7 11.2c.3-.7.6-.7 1-.7.3 0 .6 0 .8.03.3.03.5.13.7.6.2.5.7 1.8.8 1.9.1.2.1.4 0 .6-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.9 1.5 1.9 2.4 3.4 3.1.2.1.4.1.6-.1.2-.2.6-.7.8-.9.2-.2.4-.2.6-.1.2.1 1.5.7 1.8.9.3.1.5.2.5.4.1.2.1 1-.2 1.7-.4.7-1.6 1.3-2.2 1.4-.6.1-1.2.2-3.9-.9-3.3-1.4-5.4-4.7-5.6-4.9-.2-.3-1.3-1.8-1.3-3.4 0-1.7.9-2.5 1.2-2.8z" fill="var(--brand-whatsapp)" stroke="none"/></svg>
                 </div>
                 <div class="contact-text">
                     <span class="contact-label">WhatsApp</span>
                     <span class="contact-value"><a href="https://wa.me/393895592579" target="_blank">+39 389 559 2579</a></span>
                 </div>
-                <button class="save-contact-row-btn" id="saveContactInlineBtn">
-                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/><path d="M19 13h-2v3h-3v2h3v3h2v-3h3v-2h-3z"/></svg>
-                    Save
-                </button>
             </div>
 
-            <!-- Address (clickable – Google Maps) -->
+            <!-- ADDRESS -->
             <div class="contact-row">
-                <div class="icon">
-                    <svg viewBox="0 0 32 32"><path d="M16 3c-5.2 0-9.4 4.1-9.4 9.3 0 6.8 8.1 15.8 9 16.7.2.3.6.3.8 0 .9-.9 9-9.9 9-16.7C25.4 7.1 21.2 3 16 3z" stroke="#E3B463" stroke-width="1.6"/><circle cx="16" cy="12.4" r="3.4" stroke="#E3B463" stroke-width="1.6"/></svg>
+                <div class="icon icon-maps">
+                    <svg viewBox="0 0 32 32"><path d="M16 3c-5.2 0-9.4 4.1-9.4 9.3 0 6.8 8.1 15.8 9 16.7.2.3.6.3.8 0 .9-.9 9-9.9 9-16.7C25.4 7.1 21.2 3 16 3z"/><circle cx="16" cy="12.4" r="3.4"/></svg>
                 </div>
                 <div class="contact-text">
                     <span class="contact-label">Address</span>
                     <span class="contact-value">
                         <a href="https://www.google.com/maps?q=Via+Carbone+73+90151+Palermo+Italia" target="_blank">
-                            Via Carbone, 73<br />
-                            90151 Palermo PA, Italia
+                            Via Carbone, 73 · 90151 Palermo
                         </a>
                     </span>
                 </div>
             </div>
 
-            <!-- Instagram -->
+            <!-- INSTAGRAM -->
             <div class="contact-row">
-                <div class="icon">
-                    <svg viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="7" stroke="#E3B463" stroke-width="1.7"/><circle cx="16" cy="16" r="6.3" stroke="#E3B463" stroke-width="1.7"/><circle cx="23.2" cy="8.8" r="1.5" fill="#E3B463"/></svg>
+                <div class="icon icon-instagram">
+                    <svg viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="7"/><circle cx="16" cy="16" r="6.3"/><circle cx="23.2" cy="8.8" r="1.5" fill="#fff" stroke="none"/></svg>
                 </div>
                 <div class="contact-text">
                     <span class="contact-label">Instagram</span>
-                    <span class="contact-value"><a href="https://instagram.com/mondello_beach_vitamin_sea" target="_blank">@mondello_beach_vitamin_sea</a></span>
+                    <span class="contact-value"><a href="https://instagram.com/mondello_beach_vitamin_sea" target="_blank">@mondello_beach</a></span>
                 </div>
             </div>
 
-            <!-- ===== BUTTONS (Print & Share) – Print moved to bottom ===== -->
-            <div class="back-actions">
-                <!-- Print button removed from here – moved to share section bottom -->
+            <!-- RATING -->
+            <div class="rating-wrap">
+                <span class="rating-score">5.0</span>
+                <div>
+                    <div class="rating-text">Guest favorite </div>
+                    <div class="rating-sub">reviews · Superhost</div>
+                </div>
+                <a class="rating-link" href="https://www.airbnb.com/rooms/1081945547038520591" target="_blank">Read reviews ↗</a>
             </div>
 
-          <div class="footer">Mondello Beach · Vitamin Sea</div>
+            <!-- SHARE -->
+            <div class="share-section">
+                <button class="share-btn share-btn-whatsapp" id="shareWhatsAppBtn">
+                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    WhatsApp
+                </button>
+                <button class="share-btn share-btn-email" id="shareEmailBtn">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                    Email
+                </button>
+                <button class="share-btn share-btn-copy" id="copyLinkBtn">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                    Copy
+                </button>
+            </div>
+
+        </div>
     </div>
 
     <script>
@@ -788,22 +530,11 @@
                 const instagram = '@mondello_beach_vitamin_sea';
                 const address = 'Via Carbone, 73;90151 Palermo PA;Italia';
                 const url = 'https://airbnb.com/h/mondellobeachvitaminsea';
-
-                let vcard = 'BEGIN:VCARD\n';
-                vcard += 'VERSION:4.0\n';
-                vcard += 'FN:' + name + '\n';
-                vcard += 'N:;' + name + ';;;\n';
-                vcard += 'TEL;TYPE=cell:' + phone + '\n';
-                vcard += 'ADR;TYPE=home:;;' + address + '\n';
-                vcard += 'URL;TYPE=booking:' + url + '\n';
-                vcard += 'X-SOCIAL;TYPE=instagram:' + instagram + '\n';
-                vcard += 'END:VCARD\n';
-                return vcard;
+                return 'BEGIN:VCARD\nVERSION:4.0\nFN:' + name + '\nN:;' + name + ';;;\nTEL;TYPE=cell:' + phone + '\nADR;TYPE=home:;;' + address + '\nURL;TYPE=booking:' + url + '\nX-SOCIAL;TYPE=instagram:' + instagram + '\nEND:VCARD\n';
             }
 
             function downloadVCard() {
-                const vcard = generateVCard();
-                const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
+                const blob = new Blob([generateVCard()], { type: 'text/vcard;charset=utf-8' });
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = url;
@@ -814,75 +545,56 @@
                 setTimeout(() => URL.revokeObjectURL(url), 5000);
             }
 
-            // Inline save button
-            const inlineBtn = document.getElementById('saveContactInlineBtn');
-            if (inlineBtn) {
-                inlineBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    downloadVCard();
-                });
-            }
-
-            // Print (now at bottom)
-            document.getElementById('printBtn').addEventListener('click', function(e) {
-                e.preventDefault();
-                window.print();
+            document.getElementById('addContactBtn').addEventListener('click', function(e) {
+                e.stopPropagation();
+                downloadVCard();
             });
 
-            // ===== SHARE FUNCTIONS =====
-            const pageUrl = window.location.href;
-            const shareTitle = 'Mondello Beach · Vitamin Sea 🌊';
-            const shareText = 'Check out my digital card! Book your stay in Palermo, Sicilia.';
+            // ===== SHARE =====
+            const pageUrl = 'https://welcometoarma.github.io/digital_business_card/';
+            const shareText = '🌊 Mondello Beach · Vitamin Sea – book your stay in Palermo!';
 
-            // WhatsApp
             document.getElementById('shareWhatsAppBtn').addEventListener('click', function() {
-                const whatsappUrl = 'https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + pageUrl);
-                window.open(whatsappUrl, '_blank');
+                window.open('https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + pageUrl), '_blank');
             });
 
-            // Email
             document.getElementById('shareEmailBtn').addEventListener('click', function() {
-                const subject = encodeURIComponent(shareTitle);
-                const body = encodeURIComponent(shareText + '\n\n' + pageUrl);
-                window.location.href = 'mailto:?subject=' + subject + '&body=' + body;
+                window.location.href = 'mailto:?subject=' + encodeURIComponent('Mondello Beach · Vitamin Sea') + '&body=' + encodeURIComponent(shareText + '\n\n' + pageUrl);
             });
 
-            // Copy Link
             document.getElementById('copyLinkBtn').addEventListener('click', function() {
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     navigator.clipboard.writeText(pageUrl).then(() => {
-                        const original = this.innerHTML;
+                        const orig = this.innerHTML;
                         this.innerHTML = '✅ Copied!';
-                        setTimeout(() => { this.innerHTML = original; }, 2000);
-                    }).catch(() => {
-                        fallbackCopy(pageUrl);
-                    });
+                        setTimeout(() => { this.innerHTML = orig; }, 2000);
+                    }).catch(() => fallbackCopy(pageUrl));
                 } else {
                     fallbackCopy(pageUrl);
                 }
             });
 
             function fallbackCopy(text) {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                textarea.style.position = 'fixed';
-                textarea.style.left = '-9999px';
-                document.body.appendChild(textarea);
-                textarea.select();
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.left = '-9999px';
+                document.body.appendChild(ta);
+                ta.select();
                 try {
                     document.execCommand('copy');
                     const btn = document.getElementById('copyLinkBtn');
-                    const original = btn.innerHTML;
+                    const orig = btn.innerHTML;
                     btn.innerHTML = '✅ Copied!';
-                    setTimeout(() => { btn.innerHTML = original; }, 2000);
+                    setTimeout(() => { btn.innerHTML = orig; }, 2000);
                 } catch (e) {
-                    alert('Copy failed. Please copy the URL manually: ' + text);
+                    alert('Copy failed. Please copy manually: ' + text);
                 }
-                document.body.removeChild(textarea);
+                document.body.removeChild(ta);
             }
 
-            console.log('🌊 Mondello Beach Digital Card ready! (share + home screen)');
         })();
     </script>
+
 </body>
 </html>
