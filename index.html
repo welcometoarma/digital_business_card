@@ -18,6 +18,7 @@
     <style>
         /* ===== REFRESHED PALETTE ===== 
              Deep navy · warm terracotta · soft gold · limestone 
+             all colors are explicitly defined – no system dark mode override
         =============================== */
         :root {
             --sea-deep:       #1A3A4A;
@@ -45,8 +46,11 @@
             justify-content: center;
             padding: 16px;
             font-family: 'Manrope', sans-serif;
+            /* force light background even in dark mode */
             background: #0E1F28;
             background-image: radial-gradient(circle at 50% 50%, rgba(26,58,74,0.95) 0%, #07141C 100%);
+            /* prevent any OS-level color inversion */
+            color-scheme: light;
         }
 
         /* ===== CARD – STANDARD BUSINESS CARD SIZE ===== */
@@ -58,6 +62,9 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(224,176,90,0.10);
             background: var(--limestone);
             transition: transform 0.2s ease;
+            /* force light background inside card */
+            background-color: #F6EFE1;
+            color: #0B2327;
         }
         .card:hover { transform: scale(1.01); }
 
@@ -65,8 +72,10 @@
         .card-front {
             padding: 24px 20px 16px;
             background: var(--limestone);
+            background-color: #F6EFE1;
             text-align: center;
             position: relative;
+            color: #0B2327;
         }
         .card-front .pattern {
             position: absolute;
@@ -152,7 +161,9 @@
         .card-back {
             padding: 16px 18px 20px;
             background: var(--sea-deep);
+            background-color: #1A3A4A;
             background-image: radial-gradient(circle at 20% 20%, rgba(58,139,122,0.06), transparent 60%);
+            color: #FFFDF7;
         }
 
         .back-header {
@@ -406,6 +417,49 @@
             .contact-value a { color: #1A3A4A !important; }
             .card-back { background: #f5f5f5 !important; }
             .back-name { color: #1A3A4A !important; }
+        }
+
+        /* ===== FIX: prevent dark mode color inversion ===== */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #0E1F28 !important;
+                background-image: radial-gradient(circle at 50% 50%, rgba(26,58,74,0.95) 0%, #07141C 100%) !important;
+            }
+            .card {
+                background: #F6EFE1 !important;
+                background-color: #F6EFE1 !important;
+                color: #0B2327 !important;
+            }
+            .card-front {
+                background: #F6EFE1 !important;
+                background-color: #F6EFE1 !important;
+                color: #0B2327 !important;
+            }
+            .card-back {
+                background: #1A3A4A !important;
+                background-color: #1A3A4A !important;
+                color: #FFFDF7 !important;
+            }
+            .brand { color: #2C5F6E !important; }
+            .brand-script { color: #D97A3E !important; }
+            .sub { color: #2C5F6E !important; }
+            .host-tag { color: #2C5F6E !important; background: rgba(255,255,255,0.6) !important; }
+            .back-name { color: #FFFDF7 !important; }
+            .back-eyebrow { color: #F3DBA6 !important; }
+            .contact-value a { color: #FFFDF7 !important; }
+            .contact-label { color: #F3DBA6 !important; }
+            .rating-score { color: #F3DBA6 !important; }
+            .rating-text { color: #FFFDF7 !important; }
+            .rating-sub { color: #FFFDF7 !important; }
+            .rating-link { color: #F3DBA6 !important; }
+            .add-contact-btn { color: #FFFDF7 !important; }
+            .book-now-link { color: #fff !important; }
+            .share-btn { color: #fff !important; }
+            .contact-row { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.08) !important; }
+            .rating-wrap { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.08) !important; }
+            .icon-whatsapp { background: rgba(37,211,102,0.14) !important; }
+            .icon-maps { background: rgba(234,67,53,0.14) !important; }
+            .icon-instagram { background: linear-gradient(135deg, #F58529, #DD2A7B, #8134AF) !important; }
         }
     </style>
 </head>
