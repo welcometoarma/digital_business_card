@@ -142,19 +142,6 @@
       border: 1px solid rgba(255, 255, 255, 0.6);
     }
     .host-badge span { color: var(--terracotta); }
-    .viewer-counter {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      margin-top: 4px;
-      font-size: 9px;
-      color: var(--sea-mid);
-      opacity: 0.6;
-      font-weight: 500;
-    }
-    .viewer-counter svg { width: 12px; height: 12px; fill: currentColor; }
-    .viewer-counter .count { font-weight: 700; color: var(--terracotta); font-size: 11px; }
     /* PROPERTY INFO */
     .property-info {
       display: flex;
@@ -496,7 +483,6 @@
       <div class="subtitle">⭐ Superhost · Mondello, Sicily</div>
       <div class="divider"></div>
       <div class="host-badge">Hosted by <span>Katie</span></div>
-      <div class="viewer-counter"><svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg><span><span class="count" id="viewerCount">0</span> views</span></div>
     </div>
     <!-- PROPERTY INFO -->
     <div class="property-info">
@@ -574,29 +560,6 @@
 
   <script>
     (function() {
-      // ============================================================
-      //  VIEW COUNTER — COUNTS EVERY PAGE OPEN
-      // ============================================================
-      const viewerCountEl = document.getElementById('viewerCount');
-      const STORAGE_KEY = 'mondello_total_views';
-      const SESSION_KEY = 'mondello_viewed_session';
-
-      // Get current total from localStorage
-      let totalViews = parseInt(localStorage.getItem(STORAGE_KEY)) || 0;
-      
-      // Check if this browser session has already been counted
-      // Using sessionStorage which clears when browser/tab is closed
-      if (!sessionStorage.getItem(SESSION_KEY)) {
-        // New session: increment the counter
-        totalViews++;
-        localStorage.setItem(STORAGE_KEY, totalViews);
-        // Mark this session as counted
-        sessionStorage.setItem(SESSION_KEY, 'true');
-      }
-
-      // Display the count
-      viewerCountEl.textContent = totalViews;
-
       // ============================================================
       //  SLIDESHOW
       // ============================================================
