@@ -770,6 +770,26 @@
       });
 
       // ============================================================
+      //  STOP UNIVERSAL LINKS FROM SWALLOWING THIS TAB
+      // ============================================================
+      // On iOS/Android, a direct native tap on an <a> pointing at an app-linked
+      // domain (instagram.com, wa.me, maps, t.me, twitter.com...) can get
+      // hijacked by the OS's Universal/App Link system, which takes over the
+      // CURRENT tab to launch the app — ignoring target="_blank" entirely.
+      // That's why the tab with this card disappears with no way back.
+      // Opening the link via window.open() from a script (instead of letting
+      // the raw anchor click go through) avoids most of that hijacking and
+      // keeps this tab alive in the background so users can actually return.
+      document.querySelectorAll('a[target="_blank"]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (!href || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+          e.preventDefault();
+          window.open(href, '_blank', 'noopener,noreferrer');
+        });
+      });
+
+      // ============================================================
       //  BACK TO MAIN PAGE
       // ============================================================
       // The old version only showed this button based on visibilitychange/focus
