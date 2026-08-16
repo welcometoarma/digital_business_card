@@ -36,19 +36,24 @@
       --brand-contact: #4C8DFF;
     }
 
+    html, body {
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+    }
+
     body {
-      min-height: 100vh;
-      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 12px 12px;
+      padding: 0;
       font-family: 'Manrope', sans-serif;
       background: radial-gradient(ellipse 90% 50% at 50% -10%, rgba(47, 160, 141, 0.20) 0%, transparent 55%),
         radial-gradient(ellipse 100% 45% at 50% 115%, rgba(209, 85, 42, 0.25) 0%, transparent 60%),
         linear-gradient(165deg, #061418 0%, #0B2F37 26%, #114A50 46%, #7A4A2E 78%, #C9862F 100%);
       background-attachment: fixed;
+      position: relative;
     }
 
     .orb {
@@ -72,13 +77,27 @@
     .card {
       max-width: 380px;
       width: 100%;
+      max-height: 98dvh;
       border-radius: 24px;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
       box-shadow: 0 20px 56px rgba(0, 0, 0, 0.5);
       background: var(--limestone);
       position: relative;
       z-index: 1;
       margin: 0 auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+    .card::-webkit-scrollbar {
+      width: 3px;
+    }
+    .card::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .card::-webkit-scrollbar-thumb {
+      background: var(--terracotta);
+      border-radius: 10px;
     }
 
     /* HEADER */
@@ -741,13 +760,55 @@
       .share-btn .share-name { font-size: 5px; }
       .property-info span { font-size: 9px; }
     }
+
+    /* BACK-TO-CARD BUTTON (floating) */
+    .back-to-card {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1000;
+      background: rgba(14, 59, 68, 0.85);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 40px;
+      padding: 8px 16px;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .back-to-card:hover {
+      background: rgba(14, 59, 68, 0.95);
+      transform: scale(1.03);
+    }
+    .back-to-card svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+    .back-to-card.visible {
+      display: flex;
+    }
   </style>
 </head>
 <body>
 
   <div class="orb"></div>
 
-  <div class="card">
+  <!-- Floating back button (shown when navigating away) -->
+  <a href="#" class="back-to-card" id="backToCardBtn">
+    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Back to Card
+  </a>
+
+  <div class="card" id="mainCard">
     <!-- HEADER -->
     <div class="header">
       <div class="logo">
@@ -1048,18 +1109,68 @@
         }
       });
 
-      // === EASY RETURN: open external links in new tab, but keep card visible ===
-      // All external links already have target="_blank". 
-      // For extra safety, we ensure that any link without target gets it.
-      document.querySelectorAll('a[href^="http"]:not([target])').forEach(link => {
-        link.setAttribute('target', '_blank');
+      // === BACK TO CARD: show floating button when page loses focus ===
+      const backBtn = document.getElementById('backToCardBtn');
+      
+      // Show button when page is hidden (user navigated away)
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          backBtn.classList.add('visible');
+        } else {
+          // When coming back, hide the button after a short delay
+          setTimeout(() => {
+            backBtn.classList.remove('visible');
+          }, 500);
+        }
       });
 
-      // Optional: when a link is clicked, we could add a small indicator,
-      // but target="_blank" already keeps the page intact.
-      // Also, we want to make sure that the card is always centered.
-      // The body uses flex centering, and we added min-height: 100dvh.
-      // For iOS Safari, the viewport-fit=cover and meta tags already help.
+      // Also show when clicking any external link (target="_blank")
+      document.querySelectorAll('a[target="_blank"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+          // Show back button immediately
+          backBtn.classList.add('visible');
+          // Hide it again after 10 seconds in case user returns quickly
+          setTimeout(() => {
+            if (!document.hidden) {
+              backBtn.classList.remove('visible');
+            }
+          }, 10000);
+        });
+      });
+
+      // Back button: scroll to top of card and hide
+      backBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const card = document.getElementById('mainCard');
+        card.scrollTo({ top: 0, behavior: 'smooth' });
+        // Also try to focus the window
+        window.focus();
+        // Hide the button
+        this.classList.remove('visible');
+        // If the page is in a background tab, bring it to front (works in some browsers)
+        if (window.focus) window.focus();
+      });
+
+      // Additional: if user manually comes back, hide after a moment
+      window.addEventListener('focus', function() {
+        setTimeout(() => {
+          backBtn.classList.remove('visible');
+        }, 300);
+      });
+
+      // Ensure full screen height on mobile
+      function setFullHeight() {
+        const vh = window.innerHeight;
+        document.documentElement.style.setProperty('--vh', vh + 'px');
+        document.body.style.height = vh + 'px';
+      }
+      setFullHeight();
+      window.addEventListener('resize', setFullHeight);
+
+      // Make sure the card is scrollable inside the fixed body
+      const card = document.getElementById('mainCard');
+      card.style.maxHeight = '98dvh';
+      
     })();
   </script>
 </body>
