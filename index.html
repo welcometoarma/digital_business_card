@@ -1,849 +1,1051 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Mondello Beach · Digital Card</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover" />
+  <title>Mondello Beach Vitamin Sea — Digital Card</title>
+  <meta name="theme-color" content="#0E3B44" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Mondello Beach Vitamin Sea" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,400;0,600;0,700;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <!-- ===== ADD TO HOME SCREEN ===== -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Mondello Beach" />
-    <meta name="mobile-web-app-capable" content="yes" />
+    :root {
+      --sea-deep: #0E3B44;
+      --sea-mid: #1C6D77;
+      --terracotta: #D1552A;
+      --terracotta-lt: #E8895A;
+      --lemon: #E7A82E;
+      --lemon-lt: #F6D48C;
+      --limestone: #F6EFE1;
+      --paper: #FFFDF7;
+      --glass-bg: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.13);
+      --brand-whatsapp: #25D366;
+      --brand-maps: #EA4335;
+      --brand-email: #FF6B6B;
+      --brand-instagram: #DD2A7B;
+      --brand-contact: #4C8DFF;
+    }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 12px;
+      font-family: 'Manrope', sans-serif;
+      background: radial-gradient(ellipse 90% 50% at 50% -10%, rgba(47, 160, 141, 0.20) 0%, transparent 55%),
+        radial-gradient(ellipse 100% 45% at 50% 115%, rgba(209, 85, 42, 0.25) 0%, transparent 60%),
+        linear-gradient(165deg, #061418 0%, #0B2F37 26%, #114A50 46%, #7A4A2E 78%, #C9862F 100%);
+      background-attachment: fixed;
+    }
 
-    <style>
-        /* ===== REFRESHED PALETTE ===== 
-             Deep navy · warm terracotta · soft gold · limestone 
-             all colors are explicitly defined – no system dark mode override
-        =============================== */
-        :root {
-            --sea-deep:       #1A3A4A;
-            --sea-mid:        #2C5F6E;
-            --terracotta:     #D97A3E;
-            --terracotta-lt:  #E8A06B;
-            --lemon:          #E0B05A;
-            --lemon-lt:       #F3DBA6;
-            --limestone:      #F6EFE1;
-            --paper:          #FFFDF7;
-            --ink:            #0B2327;
-            --glass-bg:       rgba(255,255,255,0.05);
-            --glass-border:   rgba(255,255,255,0.08);
-            --brand-whatsapp: #25D366;
-            --brand-contact:  #4C8DFF;
-        }
+    .orb {
+      position: fixed;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      background: rgba(47, 160, 141, 0.08);
+      top: -30px;
+      right: -30px;
+      animation: floatOrb 30s infinite linear;
+    }
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-30px, 30px) scale(1.15); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :focus-visible { outline: 2px solid var(--lemon-lt); outline-offset: 2px; }
+    .card {
+      max-width: 360px;
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 56px rgba(0, 0, 0, 0.5);
+      background: var(--limestone);
+      position: relative;
+      z-index: 1;
+    }
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            font-family: 'Manrope', sans-serif;
-            background: #0E1F28;
-            background-image: radial-gradient(circle at 50% 50%, rgba(26,58,74,0.95) 0%, #07141C 100%);
-            color-scheme: light;
-        }
+    /* HEADER */
+    .header {
+      padding: 20px 20px 14px;
+      text-align: center;
+      background: var(--limestone);
+    }
 
-        /* ===== CARD – STANDARD BUSINESS CARD SIZE ===== */
-        .card {
-            max-width: 360px;
-            width: 100%;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(224,176,90,0.10);
-            background: var(--limestone);
-            transition: transform 0.2s ease;
-            background-color: #F6EFE1;
-            color: #0B2327;
-        }
-        .card:hover { transform: scale(1.01); }
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 8px;
+      box-shadow: 0 0 0 3px rgba(209, 85, 42, 0.25), 0 6px 18px rgba(0, 0, 0, 0.10);
+    }
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
-        /* ===== FRONT ===== */
-        .card-front {
-            padding: 24px 20px 16px;
-            background: var(--limestone);
-            background-color: #F6EFE1;
-            text-align: center;
-            position: relative;
-            color: #0B2327;
-        }
-        .card-front .pattern {
-            position: absolute;
-            inset: 0;
-            opacity: 0.25;
-            background-image:
-                repeating-linear-gradient(45deg, transparent 0 6px, rgba(44,95,110,0.04) 6px 6.5px),
-                repeating-linear-gradient(-45deg, transparent 0 6px, rgba(44,95,110,0.04) 6px 6.5px);
-            pointer-events: none;
-        }
-        .front-content { position: relative; z-index: 2; }
+    .business-name {
+      font-family: 'Lavishly Yours', cursive;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--sea-mid);
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .business-name .brand-part {
+      color: var(--sea-mid);
+    }
+    .business-name .highlight {
+      background: linear-gradient(135deg, var(--terracotta), var(--lemon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 21px;
+    }
 
-        .medallion {
-            width: 76px;
-            height: 76px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin: 0 auto 10px;
-            box-shadow: 0 0 0 3px rgba(217,122,62,0.25), 0 0 24px rgba(224,176,90,0.12);
-            background: #d4c9b0;
-            transition: transform 0.3s ease;
-        }
-        .medallion:hover { transform: scale(1.04); }
-        .medallion img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .subtitle {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--sea-mid);
+      margin-top: 2px;
+      opacity: 0.8;
+    }
 
-        .badge {
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--terracotta);
-            background: rgba(217,122,62,0.10);
-            padding: 3px 14px;
-            border-radius: 30px;
-            display: inline-block;
-            margin-bottom: 4px;
-        }
-        .brand {
-            font-family: 'Fraunces', serif;
-            font-weight: 700;
-            font-size: 24px;
-            line-height: 1.0;
-            color: var(--sea-mid);
-            letter-spacing: 0.01em;
-        }
-        .brand-script {
-            font-family: 'Fraunces', serif;
-            font-weight: 500;
-            font-style: italic;
-            font-size: 17px;
-            color: var(--terracotta);
-            margin-top: -1px;
-        }
-        .rule {
-            width: 44px;
-            height: 2px;
-            background: linear-gradient(90deg, var(--terracotta), var(--lemon));
-            margin: 8px auto 4px;
-            border-radius: 4px;
-        }
-        .sub {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--sea-mid);
-            opacity: 0.7;
-        }
-        .host-tag {
-            margin-top: 10px;
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--sea-mid);
-            background: rgba(255,255,255,0.6);
-            padding: 5px 16px;
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.5);
-            display: inline-block;
-        }
-        .host-tag b { color: var(--terracotta); font-weight: 800; }
+    .divider {
+      width: 32px;
+      height: 2.5px;
+      background: linear-gradient(90deg, var(--terracotta), var(--lemon));
+      margin: 8px auto 0;
+      border-radius: 4px;
+    }
 
-        /* ===== BACK ===== */
-        .card-back {
-            padding: 16px 18px 20px;
-            background: var(--sea-deep);
-            background-color: #1A3A4A;
-            background-image: radial-gradient(circle at 20% 20%, rgba(58,139,122,0.06), transparent 60%);
-            color: #FFFDF7;
-        }
+    .host-badge {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--sea-deep);
+      background: rgba(255, 255, 255, 0.7);
+      padding: 3px 14px;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+    .host-badge span {
+      color: var(--terracotta);
+    }
 
-        .back-header {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-            gap: 2px;
-        }
-        .back-eyebrow {
-            font-size: 8px;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--lemon-lt);
-            opacity: 0.7;
-        }
-        .back-name {
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-weight: 600;
-            font-size: 22px;
-            color: var(--paper);
-            text-shadow: 0 2px 12px rgba(0,0,0,0.2);
-        }
+    .viewer-counter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 10px;
+      color: var(--sea-mid);
+      opacity: 0.6;
+      font-weight: 500;
+    }
+    .viewer-counter svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+    .viewer-counter .count {
+      font-weight: 700;
+      color: var(--terracotta);
+      font-size: 12px;
+    }
 
-        /* ===== BOOK NOW ===== */
-        .book-now-wrap { margin-bottom: 10px; }
-        .book-now-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: linear-gradient(135deg, var(--terracotta), var(--lemon));
-            color: #fff;
-            font-weight: 700;
-            font-size: 14px;
-            padding: 8px 16px;
-            border-radius: 40px;
-            text-decoration: none;
-            box-shadow: 0 4px 18px rgba(217,122,62,0.3);
-            transition: all 0.2s ease;
-            border: 1px solid rgba(255,255,255,0.10);
-            width: 100%;
-        }
-        .book-now-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(217,122,62,0.4);
-        }
-        .book-now-link svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-            flex-shrink: 0;
-        }
+    /* PROPERTY INFO - 2 Beds, 1 Bath, Kitchen */
+    .property-info {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      padding: 2px 14px 10px;
+      background: var(--limestone);
+    }
+    .property-info span {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--sea-mid);
+      opacity: 0.7;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .property-info span .icon {
+      font-size: 14px;
+    }
 
-        /* ===== ADD CONTACT ===== */
-        .add-contact-wrap { margin-bottom: 10px; }
-        .add-contact-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: rgba(76,141,255,0.12);
-            color: var(--paper);
-            font-weight: 700;
-            font-size: 13px;
-            padding: 8px 16px;
-            border-radius: 40px;
-            cursor: pointer;
-            border: 1px solid rgba(76,141,255,0.25);
-            transition: all 0.2s ease;
-            width: 100%;
-            font-family: 'Manrope', sans-serif;
-        }
-        .add-contact-btn:hover {
-            background: rgba(76,141,255,0.2);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(76,141,255,0.15);
-        }
-        .add-contact-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--brand-contact);
-            flex-shrink: 0;
-        }
+    /* HERO PHOTO */
+    .hero {
+      padding: 0 14px 12px;
+      background: var(--limestone);
+    }
+    .hero-image {
+      width: 100%;
+      height: 170px;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      background: var(--sea-mid);
+      position: relative;
+    }
+    .hero-image img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+    }
+    .hero-image img.active {
+      opacity: 1;
+    }
+    .hero-image .fallback {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 600;
+      font-size: 14px;
+      background: var(--sea-deep);
+    }
+    .slide-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin-top: 6px;
+    }
+    .slide-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+    .slide-dot.active {
+      background: var(--terracotta);
+      width: 16px;
+      border-radius: 3px;
+    }
 
-        /* ===== CONTACT ROWS ===== */
-        .contact-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 6px;
-            background: var(--glass-bg);
-            padding: 7px 14px;
-            border-radius: 14px;
-            border: 1px solid var(--glass-border);
-            transition: all 0.2s ease;
-        }
-        .contact-row:hover {
-            background: rgba(255,255,255,0.08);
-            transform: translateX(3px);
-            border-color: rgba(224,176,90,0.2);
-        }
-        .contact-row .icon {
-            width: 34px;
-            height: 34px;
-            flex-shrink: 0;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .contact-row .icon svg {
-            width: 18px;
-            height: 18px;
-            stroke-width: 1.8;
-            fill: none;
-        }
-        .icon-whatsapp { background: rgba(37,211,102,0.14); }
-        .icon-whatsapp svg { stroke: var(--brand-whatsapp); }
-        .icon-maps { background: rgba(234,67,53,0.14); }
-        .icon-maps svg { stroke: #EA4335; }
-        .icon-instagram { 
-            background: linear-gradient(135deg, #F58529, #DD2A7B, #8134AF);
-        }
-        .icon-instagram svg { stroke: #fff; }
+    .fullscreen-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 20px;
+      cursor: pointer;
+    }
+    .fullscreen-overlay.open {
+      display: flex;
+    }
+    .fullscreen-overlay img {
+      max-width: 96%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+    .fullscreen-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-size: 32px;
+      color: #fff;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      font-weight: 300;
+      cursor: pointer;
+    }
+    .fullscreen-close:hover {
+      opacity: 1;
+    }
 
-        .contact-text { flex: 1; min-width: 0; }
-        .contact-label {
-            font-size: 8px;
-            font-weight: 700;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--lemon-lt);
-            opacity: 0.6;
-            display: block;
-            margin-bottom: 1px;
-        }
-        .contact-value {
-            font-size: 13px;
-            font-weight: 400;
-            color: var(--paper);
-            line-height: 1.3;
-            word-break: break-word;
-        }
-        .contact-value a {
-            color: var(--paper);
-            text-decoration: none;
-            transition: color 0.2s;
-            font-weight: 500;
-        }
-        .contact-value a:hover { color: var(--lemon-lt); }
+    /* BACK SECTION */
+    .back {
+      padding: 14px 16px 18px;
+      background: var(--sea-deep);
+      background-image: radial-gradient(circle at 20% 20%, rgba(47, 160, 141, 0.08), transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(231, 168, 46, 0.06), transparent 50%);
+    }
 
-        /* ===== RATING ===== */
-        .rating-wrap {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 8px 14px;
-            margin: 6px 0 10px;
-        }
-        .rating-score {
-            font-family: 'Fraunces', serif;
-            font-weight: 700;
-            font-size: 26px;
-            color: var(--lemon-lt);
-            flex-shrink: 0;
-            line-height: 1;
-        }
-        .rating-text {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--paper);
-        }
-        .rating-sub {
-            font-size: 10px;
-            color: var(--paper);
-            opacity: 0.6;
-        }
-        .rating-link {
-            color: var(--lemon-lt);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 11px;
-            margin-left: auto;
-            flex-shrink: 0;
-        }
-        .rating-link:hover { text-decoration: underline; }
+    .action-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
 
-        /* ===== SHARE ===== */
-        .share-section {
-            display: flex;
-            gap: 6px;
-            margin-top: 12px;
-        }
-        .share-btn {
-            font-family: 'Manrope', sans-serif;
-            font-weight: 700;
-            font-size: 10px;
-            padding: 5px 10px;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            text-decoration: none;
-            letter-spacing: 0.02em;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.12);
-            flex: 1;
-            justify-content: center;
-            color: #fff;
-            transition: all 0.2s ease;
-        }
-        .share-btn svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-            flex-shrink: 0;
-        }
-        .share-btn-whatsapp { background: #25D366; }
-        .share-btn-whatsapp:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(37,211,102,0.3); }
-        .share-btn-email { background: var(--terracotta); }
-        .share-btn-email:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(217,122,62,0.3); }
-        .share-btn-copy { background: #5b6b70; }
-        .share-btn-copy:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(91,107,112,0.3); }
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 8px;
+      border-radius: 14px;
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+      min-height: 40px;
+    }
+    .action-btn svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 400px) {
-            .card { max-width: 100%; }
-            .medallion { width: 64px; height: 64px; }
-            .brand { font-size: 20px; }
-            .brand-script { font-size: 15px; }
-            .back-name { font-size: 19px; }
-            .contact-value { font-size: 12px; }
-            .book-now-link { font-size: 13px; padding: 7px 14px; }
-            .add-contact-btn { font-size: 12px; padding: 7px 14px; }
-        }
+    .action-btn-book {
+      background: linear-gradient(135deg, var(--terracotta), var(--lemon));
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(209, 85, 42, 0.3);
+    }
+    .action-btn-book:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(209, 85, 42, 0.4);
+    }
 
-        @media print {
-            body { background: #fff !important; padding: 4px; }
-            .card { box-shadow: 0 0 0 1px #ccc !important; max-width: 100%; }
-            .share-section { display: none !important; }
-            .book-now-link { background: #D97A3E !important; color: #fff !important; box-shadow: none !important; border: 1px solid #888 !important; }
-            .contact-row, .rating-wrap { background: rgba(0,0,0,0.02) !important; border: 1px solid #ddd !important; }
-            .contact-value a { color: #1A3A4A !important; }
-            .card-back { background: #f5f5f5 !important; }
-            .back-name { color: #1A3A4A !important; }
-        }
+    .action-btn-contact {
+      background: linear-gradient(135deg, var(--brand-contact), #6B5BFF);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(76, 141, 255, 0.3);
+    }
+    .action-btn-contact:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(76, 141, 255, 0.4);
+    }
+    .action-btn-contact svg {
+      fill: currentColor;
+    }
 
-        /* ===== FIX: prevent dark mode color inversion ===== */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: #0E1F28 !important;
-                background-image: radial-gradient(circle at 50% 50%, rgba(26,58,74,0.95) 0%, #07141C 100%) !important;
-            }
-            .card {
-                background: #F6EFE1 !important;
-                background-color: #F6EFE1 !important;
-                color: #0B2327 !important;
-            }
-            .card-front {
-                background: #F6EFE1 !important;
-                background-color: #F6EFE1 !important;
-                color: #0B2327 !important;
-            }
-            .card-back {
-                background: #1A3A4A !important;
-                background-color: #1A3A4A !important;
-                color: #FFFDF7 !important;
-            }
-            .brand { color: #2C5F6E !important; }
-            .brand-script { color: #D97A3E !important; }
-            .sub { color: #2C5F6E !important; }
-            .host-tag { color: #2C5F6E !important; background: rgba(255,255,255,0.6) !important; }
-            .back-name { color: #FFFDF7 !important; }
-            .back-eyebrow { color: #F3DBA6 !important; }
-            .contact-value a { color: #FFFDF7 !important; }
-            .contact-label { color: #F3DBA6 !important; }
-            .rating-score { color: #F3DBA6 !important; }
-            .rating-text { color: #FFFDF7 !important; }
-            .rating-sub { color: #FFFDF7 !important; }
-            .rating-link { color: #F3DBA6 !important; }
-            .add-contact-btn { color: #FFFDF7 !important; }
-            .book-now-link { color: #fff !important; }
-            .share-btn { color: #fff !important; }
-            .contact-row { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.08) !important; }
-            .rating-wrap { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.08) !important; }
-            .icon-whatsapp { background: rgba(37,211,102,0.14) !important; }
-            .icon-maps { background: rgba(234,67,53,0.14) !important; }
-            .icon-instagram { background: linear-gradient(135deg, #F58529, #DD2A7B, #8134AF) !important; }
-        }
-    </style>
+    .section-label {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--lemon-lt);
+      opacity: 0.6;
+      margin: 0 2px 8px;
+    }
+
+    /* CONTACT - 3 items row */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .contact-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 10px 4px 8px;
+      border-radius: 14px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      min-height: 62px;
+      text-align: center;
+      border: 2px solid transparent;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .contact-item-whatsapp {
+      background: linear-gradient(145deg, rgba(37, 211, 102, 0.22), rgba(37, 211, 102, 0.04));
+      border-color: rgba(37, 211, 102, 0.25);
+    }
+    .contact-item-whatsapp:hover {
+      background: linear-gradient(145deg, rgba(37, 211, 102, 0.32), rgba(37, 211, 102, 0.08));
+      border-color: var(--brand-whatsapp);
+      transform: translateY(-2px);
+    }
+
+    .contact-item-email {
+      background: linear-gradient(145deg, rgba(255, 107, 107, 0.22), rgba(255, 107, 107, 0.04));
+      border-color: rgba(255, 107, 107, 0.25);
+    }
+    .contact-item-email:hover {
+      background: linear-gradient(145deg, rgba(255, 107, 107, 0.32), rgba(255, 107, 107, 0.08));
+      border-color: var(--brand-email);
+      transform: translateY(-2px);
+    }
+
+    .contact-item-instagram {
+      background: linear-gradient(145deg, rgba(221, 42, 123, 0.22), rgba(245, 133, 41, 0.04));
+      border-color: rgba(221, 42, 123, 0.2);
+    }
+    .contact-item-instagram:hover {
+      background: linear-gradient(145deg, rgba(221, 42, 123, 0.32), rgba(245, 133, 41, 0.08));
+      border-color: var(--brand-instagram);
+      transform: translateY(-2px);
+    }
+
+    .contact-icon {
+      width: 30px;
+      height: 30px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    }
+    .contact-icon svg {
+      width: 15px;
+      height: 15px;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .icon-whatsapp {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+    }
+    .icon-whatsapp svg {
+      stroke: #fff;
+    }
+    .icon-whatsapp svg path[fill] {
+      fill: #fff;
+    }
+
+    .icon-email {
+      background: linear-gradient(135deg, #FF6B6B, #EE5A24);
+    }
+    .icon-email svg {
+      stroke: #fff;
+    }
+
+    .icon-instagram {
+      background: linear-gradient(135deg, #F58529, #DD2A7B, #8134AF);
+    }
+    .icon-instagram svg {
+      stroke: #fff;
+    }
+    .icon-instagram svg rect,
+    .icon-instagram svg circle {
+      stroke: #fff;
+    }
+    .icon-instagram svg circle[fill] {
+      fill: #fff;
+      stroke: none;
+    }
+
+    .contact-label {
+      font-size: 6.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--lemon-lt);
+      opacity: 0.7;
+    }
+    .contact-value {
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--paper);
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    /* FIND US */
+    .find-us-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(145deg, rgba(234, 67, 53, 0.16), rgba(234, 67, 53, 0.04));
+      border: 2px solid rgba(234, 67, 53, 0.2);
+      border-radius: 14px;
+      padding: 10px 14px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      margin-bottom: 12px;
+    }
+    .find-us-card:hover {
+      background: linear-gradient(145deg, rgba(234, 67, 53, 0.24), rgba(234, 67, 53, 0.06));
+      border-color: var(--brand-maps);
+      transform: translateX(3px);
+    }
+    .find-us-card .icon-maps {
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #EA4335, #C62828);
+      box-shadow: 0 4px 10px rgba(234, 67, 53, 0.25);
+    }
+    .find-us-card .icon-maps svg {
+      width: 17px;
+      height: 17px;
+      stroke: #fff;
+      stroke-width: 2;
+      fill: none;
+    }
+    .find-us-text {
+      flex: 1;
+    }
+    .find-us-label {
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--lemon-lt);
+      opacity: 0.6;
+    }
+    .find-us-value {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--paper);
+      line-height: 1.3;
+    }
+    .find-us-arrow {
+      color: var(--paper);
+      opacity: 0.3;
+      font-size: 18px;
+      font-weight: 300;
+      transition: all 0.2s;
+    }
+    .find-us-card:hover .find-us-arrow {
+      opacity: 0.9;
+      transform: translateX(3px);
+    }
+
+    /* REVIEW */
+    .review-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .review-card:hover {
+      background: rgba(255, 255, 255, 0.11);
+      transform: translateY(-2px);
+    }
+    .review-score {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: var(--lemon-lt);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .review-info {
+      flex: 1;
+    }
+    .review-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--paper);
+    }
+    .review-sub {
+      font-size: 9px;
+      color: var(--paper);
+      opacity: 0.6;
+    }
+    .review-arrow {
+      color: var(--lemon-lt);
+      opacity: 0.3;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+    .review-card:hover .review-arrow {
+      opacity: 0.9;
+      transform: translateX(3px);
+    }
+
+    /* SHARE */
+    .share-section {
+      margin: 12px 0 4px;
+      padding: 10px 12px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+    }
+    .share-label {
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--lemon-lt);
+      opacity: 0.5;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .share-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+    }
+    .share-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding: 6px 2px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+    }
+    .share-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .share-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    .share-btn .share-name {
+      font-size: 5.5px;
+      font-weight: 600;
+      color: var(--paper);
+      opacity: 0.6;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .share-btn-whatsapp svg {
+      fill: #25D366;
+    }
+    .share-btn-whatsapp:hover {
+      border-color: #25D366;
+    }
+    .share-btn-telegram svg {
+      fill: #0088CC;
+    }
+    .share-btn-telegram:hover {
+      border-color: #0088CC;
+    }
+    .share-btn-twitter svg {
+      fill: #1DA1F2;
+    }
+    .share-btn-twitter:hover {
+      border-color: #1DA1F2;
+    }
+    .share-btn-copy svg {
+      fill: var(--lemon-lt);
+    }
+    .share-btn-copy:hover {
+      border-color: var(--lemon-lt);
+    }
+
+    .footer-message {
+      margin-top: 10px;
+      text-align: center;
+      padding: 2px 0;
+    }
+    .footer-message .divider-mini {
+      display: block;
+      width: 28px;
+      height: 2px;
+      margin: 0 auto 6px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--terracotta), var(--lemon));
+      opacity: 0.4;
+    }
+    .footer-message span {
+      font-family: 'Fraunces', serif;
+      font-style: italic;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.015em;
+      line-height: 1.3;
+      background: linear-gradient(90deg, var(--lemon-lt), var(--terracotta-lt) 55%, var(--lemon-lt));
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 6s linear infinite alternate;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @media (max-width: 400px) {
+      .card { max-width: 320px; border-radius: 18px; }
+      .header { padding: 16px 14px 12px; }
+      .logo { width: 52px; height: 52px; }
+      .business-name { font-size: 17px; }
+      .business-name .highlight { font-size: 18px; }
+      .hero-image { height: 140px; }
+      .contact-item { min-height: 54px; padding: 8px 4px 6px; }
+      .contact-value { font-size: 7px; }
+      .contact-icon { width: 26px; height: 26px; }
+      .contact-icon svg { width: 13px; height: 13px; }
+      .action-btn { font-size: 10px; padding: 8px 6px; min-height: 36px; }
+      .action-btn svg { width: 14px; height: 14px; }
+      .review-score { font-size: 20px; }
+      .find-us-value { font-size: 10px; }
+      .find-us-card { padding: 8px 12px; }
+      .find-us-card .icon-maps { width: 30px; height: 30px; }
+      .find-us-card .icon-maps svg { width: 15px; height: 15px; }
+      .share-btn svg { width: 16px; height: 16px; }
+      .share-btn .share-name { font-size: 5px; }
+      .property-info span { font-size: 9px; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="card">
+  <div class="orb"></div>
 
-        <!-- ===== FRONT ===== -->
-        <div class="card-front">
-            <div class="pattern"></div>
-            <div class="front-content">
-                <div class="medallion">
-                    <img src="logo.jpg" alt="Mondello Beach" />
-                </div>
-               <div class="badge">Mondello · Palermo, Sicilia</div>
-                <div class="brand">MONDELLO BEACH</div>
-                <div class="brand-script">Vitamin Sea</div>
-                <div class="rule"></div>
-                <div class="sub">A casa, sul mare</div>
-                <div class="host-tag">⭐ Superhost <b>Katie</b></div>
-            </div>
-        </div>
-
-        <!-- ===== BACK ===== -->
-        <div class="card-back">
-
-            <div class="back-header">
-                <span class="back-eyebrow">Your Superhost</span>
-                <span class="back-name">Katie</span>
-            </div>
-
-            <!-- BOOK NOW -->
-            <div class="book-now-wrap">
-                <a href="https://airbnb.com/h/mondellobeachvitaminsea" target="_blank" class="book-now-link">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                    Book now · View on Airbnb
-                </a>
-            </div>
-
-            <!-- ADD CONTACT - Direct save to contacts -->
-            <div class="add-contact-wrap">
-                <button class="add-contact-btn" id="addContactBtn">
-                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/><path d="M19 13h-2v3h-3v2h3v3h2v-3h3v-2h-3z"/></svg>
-                    Add to Contacts
-                </button>
-            </div>
-
-            <!-- WHATSAPP -->
-            <div class="contact-row">
-                <div class="icon icon-whatsapp">
-                    <svg viewBox="0 0 32 32"><path d="M16 2C8.3 2 2 8.3 2 16c0 2.8.8 5.5 2.3 7.8L2 30l6.4-2.2C10.6 29.2 13.2 30 16 30c7.7 0 14-6.3 14-14S23.7 2 16 2z"/><path d="M11.7 11.2c.3-.7.6-.7 1-.7.3 0 .6 0 .8.03.3.03.5.13.7.6.2.5.7 1.8.8 1.9.1.2.1.4 0 .6-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.9 1.5 1.9 2.4 3.4 3.1.2.1.4.1.6-.1.2-.2.6-.7.8-.9.2-.2.4-.2.6-.1.2.1 1.5.7 1.8.9.3.1.5.2.5.4.1.2.1 1-.2 1.7-.4.7-1.6 1.3-2.2 1.4-.6.1-1.2.2-3.9-.9-3.3-1.4-5.4-4.7-5.6-4.9-.2-.3-1.3-1.8-1.3-3.4 0-1.7.9-2.5 1.2-2.8z" fill="var(--brand-whatsapp)" stroke="none"/></svg>
-                </div>
-                <div class="contact-text">
-                    <span class="contact-label">WhatsApp</span>
-                    <span class="contact-value"><a href="https://wa.me/393895592579" target="_blank">+39 389 559 2579</a></span>
-                </div>
-            </div>
-
-            <!-- ADDRESS -->
-            <div class="contact-row">
-                <div class="icon icon-maps">
-                    <svg viewBox="0 0 32 32"><path d="M16 3c-5.2 0-9.4 4.1-9.4 9.3 0 6.8 8.1 15.8 9 16.7.2.3.6.3.8 0 .9-.9 9-9.9 9-16.7C25.4 7.1 21.2 3 16 3z"/><circle cx="16" cy="12.4" r="3.4"/></svg>
-                </div>
-                <div class="contact-text">
-                    <span class="contact-label">Address</span>
-                    <span class="contact-value">
-                        <a href="https://www.google.com/maps?q=Via+Carbone+73+90151+Palermo+Italia" target="_blank">
-                            Via Carbone, 73 · 90151 Palermo
-                        </a>
-                    </span>
-                </div>
-            </div>
-
-            <!-- INSTAGRAM -->
-            <div class="contact-row">
-                <div class="icon icon-instagram">
-                    <svg viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="7"/><circle cx="16" cy="16" r="6.3"/><circle cx="23.2" cy="8.8" r="1.5" fill="#fff" stroke="none"/></svg>
-                </div>
-                <div class="contact-text">
-                    <span class="contact-label">Instagram</span>
-                    <span class="contact-value"><a href="https://instagram.com/mondello_beach_vitamin_sea" target="_blank">@mondello_beach</a></span>
-                </div>
-            </div>
-
-            <!-- RATING -->
-            <div class="rating-wrap">
-                <span class="rating-score">5.0</span>
-                <div>
-                    <div class="rating-text">Guest favorite </div>
-                    <div class="rating-sub">reviews · Superhost</div>
-                </div>
-                <a class="rating-link" href="https://www.airbnb.com/rooms/1081945547038520591" target="_blank">Read reviews ↗</a>
-            </div>
-
-            <!-- SHARE -->
-            <div class="share-section">
-                <button class="share-btn share-btn-whatsapp" id="shareWhatsAppBtn">
-                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    WhatsApp
-                </button>
-                <button class="share-btn share-btn-email" id="shareEmailBtn">
-                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                    Email
-                </button>
-                <button class="share-btn share-btn-copy" id="copyLinkBtn">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                    Copy
-                </button>
-            </div>
-
-        </div>
+  <div class="card">
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo">
+        <img src="logo.jpg" alt="Mondello Beach Vitamin Sea" />
+      </div>
+      <div class="business-name">
+        <span class="brand-part">Mondello Beach</span>
+        <span class="highlight">Vitamin Sea</span>
+      </div>
+      <div class="subtitle">⭐ Superhost · Mondello, Sicily</div>
+      <div class="divider"></div>
+      <div class="host-badge">Hosted by <span>Katie</span></div>
+      <div class="viewer-counter">
+        <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+        <span><span class="count" id="viewerCount">0</span> views</span>
+      </div>
     </div>
 
-    <script>
-        (function() {
-            'use strict';
+    <!-- PROPERTY INFO - 2 Beds, 1 Bath, Kitchen -->
+    <div class="property-info">
+      <span><span class="icon">🛏️</span> 2 Beds</span>
+      <span><span class="icon">🛁</span> 1 Bath</span>
+      <span><span class="icon">🍳</span> Kitchen</span>
+    </div>
 
-            // ===== Contact data =====
-            const contactData = {
-                name: 'Katie',
-                phone: '+393895592579',
-                email: 'katie@mondellobeach.com',
-                address: 'Via Carbone, 73, 90151 Palermo, Italy',
-                instagram: '@mondello_beach_vitamin_sea',
-                url: 'https://airbnb.com/h/mondellobeachvitaminsea'
-            };
+    <!-- HERO PHOTO -->
+    <div class="hero">
+      <div class="hero-image" id="heroContainer">
+        <img src="salon.jpg" alt="Salon" class="active" />
+        <img src="kitchen.jpg" alt="Kitchen" />
+        <img src="bagno.jpg" alt="Bagno" />
+        <img src="balcony.jpg" alt="Balcony" />
+        <img src="bed1.jpg" alt="Bedroom" />
+        <img src="bed2.jpg" alt="Bedroom 2" />
+        <div class="fallback">🏖️ Photo</div>
+      </div>
+      <div class="slide-indicators" id="slideIndicators"></div>
+    </div>
 
-            // ===== Generate complete vCard =====
-            function generateVCard() {
-                return [
-                    'BEGIN:VCARD',
-                    'VERSION:3.0',
-                    'FN:' + contactData.name,
-                    'N:;' + contactData.name + ';;;',
-                    'TEL;TYPE=CELL:' + contactData.phone,
-                    'EMAIL:' + contactData.email,
-                    'ADR;TYPE=HOME:;;' + contactData.address.replace(/,/g, ';'),
-                    'URL;TYPE=BOOKING:' + contactData.url,
-                    'NOTE:Instagram: ' + contactData.instagram,
-                    'END:VCARD'
-                ].join('\n');
-            }
+    <!-- BACK -->
+    <div class="back">
+      <!-- ACTION ROW -->
+      <div class="action-row">
+        <a href="https://airbnb.com/h/mondellobeachvitaminsea" target="_blank" class="action-btn action-btn-book">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Book Now
+        </a>
+        <button class="action-btn action-btn-contact" id="addContactBtn">
+          <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/><path d="M19 13h-2v3h-3v2h3v3h2v-3h3v-2h-3z"/></svg>
+          Add Contact
+        </button>
+      </div>
 
-            // ===== SAVE CONTACT DIRECTLY - NO DOWNLOAD =====
-            function saveContactDirectly() {
-                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-                const isAndroid = /Android/.test(navigator.userAgent);
-                
-                // For iOS: Use the standard vCard opening method (iOS prompts to add to contacts)
-                if (isIOS) {
-                    const vcardData = generateVCard();
-                    const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });
-                    const url = URL.createObjectURL(blob);
-                    
-                    // Open vCard in new window - iOS will show "Add to Contacts" prompt
-                    const win = window.open(url, '_blank');
-                    if (!win) {
-                        // If popup blocked, use link click
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.download = 'katie_mondello.vcf';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    }
-                    
-                    // Clean up after delay
-                    setTimeout(() => { URL.revokeObjectURL(url); }, 5000);
-                    return;
-                }
-                
-                // For Android: Use multiple methods for better compatibility
-                if (isAndroid) {
-                    // Try Web Share API first (Android Chrome 80+)
-                    if (navigator.share) {
-                        const vcardText = generateVCard();
-                        const blob = new Blob([vcardText], { type: 'text/vcard;charset=utf-8' });
-                        const file = new File([blob], 'katie_mondello.vcf', { type: 'text/vcard' });
-                        
-                        navigator.share({
-                            title: 'Save Katie\'s Contact',
-                            files: [file]
-                        }).catch(err => {
-                            // If share fails, fallback to Android intent
-                            androidContactIntent();
-                        });
-                        return;
-                    }
-                    
-                    // Fallback: Android Intent for contact picker
-                    androidContactIntent();
-                    return;
-                }
-                
-                // Desktop fallback: show vCard for download
-                const vcardData = generateVCard();
-                const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'katie_mondello.vcf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                setTimeout(() => { URL.revokeObjectURL(url); }, 5000);
-            }
+      <div class="section-label">✨ Get in touch</div>
 
-            // ===== Android Contact Intent =====
-            function androidContactIntent() {
-                // Method 1: Use intent:// to open contact picker with pre-filled data
-                try {
-                    // This intent tries to open the contact editor directly
-                    const intentUrl = 'intent://contact/#Intent;action=android.intent.action.INSERT;type=vnd.android.cursor.dir/contact;end';
-                    const win = window.open(intentUrl, '_blank');
-                    
-                    // If intent doesn't work, try alternative
-                    if (!win) {
-                        androidVCardFallback();
-                    }
-                } catch (e) {
-                    androidVCardFallback();
-                }
-            }
+      <!-- CONTACT - 3 items -->
+      <div class="contact-grid">
+        <a class="contact-item contact-item-whatsapp" href="https://wa.me/393895592579" target="_blank">
+          <div class="contact-icon icon-whatsapp">
+            <svg viewBox="0 0 32 32"><path d="M16 2C8.3 2 2 8.3 2 16c0 2.8.8 5.5 2.3 7.8L2 30l6.4-2.2C10.6 29.2 13.2 30 16 30c7.7 0 14-6.3 14-14S23.7 2 16 2z"/><path d="M11.7 11.2c.3-.7.6-.7 1-.7.3 0 .6 0 .8.03.3.03.5.13.7.6.2.5.7 1.8.8 1.9.1.2.1.4 0 .6-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.9 1.5 1.9 2.4 3.4 3.1.2.1.4.1.6-.1.2-.2.6-.7.8-.9.2-.2.4-.2.6-.1.2.1 1.5.7 1.8.9.3.1.5.2.5.4.1.2.1 1-.2 1.7-.4.7-1.6 1.3-2.2 1.4-.6.1-1.2.2-3.9-.9-3.3-1.4-5.4-4.7-5.6-4.9-.2-.3-1.3-1.8-1.3-3.4 0-1.7.9-2.5 1.2-2.8z" fill="#fff" stroke="none"/></svg>
+          </div>
+          <span class="contact-label">WhatsApp</span>
+          <span class="contact-value">+39 389 559 2579</span>
+        </a>
 
-            // ===== Android vCard fallback =====
-            function androidVCardFallback() {
-                // Generate and open vCard - Android will usually handle it
-                const vcardData = generateVCard();
-                const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                
-                // Try to open in new window
-                const win = window.open(url, '_blank');
-                if (!win) {
-                    // If popup blocked, use download link
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'katie_mondello.vcf';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                }
-                
-                setTimeout(() => { URL.revokeObjectURL(url); }, 5000);
-                
-                // Also try to open via data URI as fallback
-                setTimeout(() => {
-                    try {
-                        const dataUri = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcardData);
-                        window.open(dataUri, '_blank');
-                    } catch (e) {
-                        // Silent fail
-                    }
-                }, 1000);
-            }
+        <a class="contact-item contact-item-email" href="mailto:katkaockovicova@yahoo.co.uk" target="_blank">
+          <div class="contact-icon icon-email">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </div>
+          <span class="contact-label">Email</span>
+          <span class="contact-value">katkaockovicova@yahoo.co.uk</span>
+        </a>
 
-            // ===== Click handler =====
-            document.getElementById('addContactBtn').addEventListener('click', function(e) {
-                e.stopPropagation();
-                
-                const btn = this;
-                const originalHTML = btn.innerHTML;
-                
-                // Visual feedback
-                btn.innerHTML = '⏳ Opening Contacts...';
-                btn.style.opacity = '0.8';
-                
-                try {
-                    saveContactDirectly();
-                } catch (error) {
-                    console.error('Contact save error:', error);
-                    // Try fallback
-                    try {
-                        const vcard = generateVCard();
-                        const dataUri = 'data:text/vcard;charset=utf-8,' + encodeURIComponent(vcard);
-                        window.open(dataUri, '_blank');
-                    } catch (e2) {
-                        alert('Please copy the contact information manually.');
-                    }
-                }
-                
-                // Reset button after 3 seconds
-                setTimeout(() => {
-                    btn.innerHTML = originalHTML;
-                    btn.style.opacity = '1';
-                }, 3000);
-            });
+        <a class="contact-item contact-item-instagram" href="https://instagram.com/mondello_beach_vitamin_sea" target="_blank">
+          <div class="contact-icon icon-instagram">
+            <svg viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="7"/><circle cx="16" cy="16" r="6.3"/><circle cx="23.2" cy="8.8" r="1.5" fill="#fff" stroke="none"/></svg>
+          </div>
+          <span class="contact-label">Instagram</span>
+          <span class="contact-value">@mondello_beach_vitamin_sea</span>
+        </a>
+      </div>
 
-            // ===== SHARE =====
-            const pageUrl = 'https://welcometoarma.github.io/digital_business_card/';
-            
-            // Plain text without emojis for better Android compatibility
-            const shareText = 'Mondello Beach · Vitamin Sea – book your stay in Palermo!';
+      <div class="section-label">📍 Find us</div>
 
-            document.getElementById('shareWhatsAppBtn').addEventListener('click', function() {
-                // WhatsApp works fine with emojis, but we keep it clean
-                const url = 'https://wa.me/?text=' + encodeURIComponent(shareText + ' ' + pageUrl);
-                window.open(url, '_blank');
-            });
+      <a class="find-us-card" href="https://www.google.com/maps?q=Via+Carbone+73+90151+Palermo+Italia" target="_blank">
+        <div class="icon-maps">
+          <svg viewBox="0 0 32 32"><path d="M16 3c-5.2 0-9.4 4.1-9.4 9.3 0 6.8 8.1 15.8 9 16.7.2.3.6.3.8 0 .9-.9 9-9.9 9-16.7C25.4 7.1 21.2 3 16 3z"/><circle cx="16" cy="12.4" r="3.4"/></svg>
+        </div>
+        <div class="find-us-text">
+          <div class="find-us-label">📍 Address</div>
+          <div class="find-us-value">Via Carbone, 73 · 90151 Palermo PA</div>
+        </div>
+        <span class="find-us-arrow">→</span>
+      </a>
 
-            // ===== FIXED EMAIL SHARE FOR ANDROID =====
-            document.getElementById('shareEmailBtn').addEventListener('click', function() {
-                // Use plain ASCII characters for subject and body - Android compatible
-                const subject = 'Mondello Beach  Vitamin Sea';
-                // Clean body text without emojis or special characters
-                const body = 'Mondello Beach - Vitamin Sea\n\nBook your stay in Palermo!\n\n' + pageUrl;
-                
-                // Use mailto: with properly encoded parameters
-                const mailtoLink = 'mailto:?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-                
-                // For Android, try to open with a small delay to ensure it works
-                if (/Android/.test(navigator.userAgent)) {
-                    // Android sometimes needs a slightly different approach
-                    try {
-                        window.location.href = mailtoLink;
-                    } catch (e) {
-                        // Fallback: open in new window
-                        window.open(mailtoLink, '_blank');
-                    }
-                } else {
-                    // iOS and desktop
-                    window.location.href = mailtoLink;
-                }
-            });
+      <div class="section-label">⭐ Guest love</div>
 
-            document.getElementById('copyLinkBtn').addEventListener('click', function() {
-                const btn = this;
-                const origText = btn.innerHTML;
-                
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(pageUrl).then(() => {
-                        btn.innerHTML = '✅ Copied!';
-                        setTimeout(() => { btn.innerHTML = origText; }, 2000);
-                    }).catch(() => {
-                        fallbackCopy(pageUrl, btn, origText);
-                    });
-                } else {
-                    fallbackCopy(pageUrl, btn, origText);
-                }
-            });
+      <a class="review-card" href="https://www.airbnb.com/rooms/1081945547038520591" target="_blank">
+        <div class="review-score">5.0</div>
+        <div class="review-info">
+          <div class="review-title">⭐ Guest favorite · Top 5</div>
+          <div class="review-sub">All reviews · Superhost</div>
+        </div>
+        <span class="review-arrow">→</span>
+      </a>
 
-            function fallbackCopy(text, btn, origText) {
-                const ta = document.createElement('textarea');
-                ta.value = text;
-                ta.style.position = 'fixed';
-                ta.style.left = '-9999px';
-                ta.style.top = '-9999px';
-                ta.style.width = '1px';
-                ta.style.height = '1px';
-                ta.style.opacity = '0';
-                document.body.appendChild(ta);
-                ta.select();
-                try {
-                    const success = document.execCommand('copy');
-                    if (success) {
-                        btn.innerHTML = '✅ Copied!';
-                        setTimeout(() => { btn.innerHTML = origText; }, 2000);
-                    } else {
-                        if (navigator.share) {
-                            navigator.share({
-                                title: 'Mondello Beach',
-                                text: shareText,
-                                url: pageUrl
-                            }).catch(() => {});
-                        } else {
-                            alert('Copy failed. Please copy manually:\n' + text);
-                        }
-                    }
-                } catch (e) {
-                    if (navigator.share) {
-                        navigator.share({
-                            title: 'Mondello Beach',
-                            text: shareText,
-                            url: pageUrl
-                        }).catch(() => {
-                            alert('Copy failed. Please copy manually:\n' + text);
-                        });
-                    } else {
-                        alert('Copy failed. Please copy manually:\n' + text);
-                    }
-                }
-                document.body.removeChild(ta);
-            }
+      <!-- SHARE -->
+      <div class="share-section">
+        <div class="share-label">📤 Share</div>
+        <div class="share-grid">
+          <a class="share-btn share-btn-whatsapp" href="https://wa.me/?text=Check%20out%20Mondello%20Beach%20Vitamin%20Sea!%20Book%20your%20stay%20in%20Palermo%2C%20Sicilia.%20https%3A%2F%2Fwelcometoarma.github.io%2Fdigital_business_card%2F" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span class="share-name">WhatsApp</span>
+          </a>
+          <a class="share-btn share-btn-telegram" href="https://t.me/share/url?url=https%3A%2F%2Fwelcometoarma.github.io%2Fdigital_business_card%2F&text=Check%20out%20Mondello%20Beach%20Vitamin%20Sea!%20Book%20your%20stay%20in%20Palermo%2C%20Sicilia." target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            <span class="share-name">Telegram</span>
+          </a>
+          <a class="share-btn share-btn-twitter" href="https://twitter.com/intent/tweet?text=Check%20out%20Mondello%20Beach%20Vitamin%20Sea!%20Book%20your%20stay%20in%20Palermo%2C%20Sicilia.&url=https%3A%2F%2Fwelcometoarma.github.io%2Fdigital_business_card%2F" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            <span class="share-name">Twitter</span>
+          </a>
+          <button class="share-btn share-btn-copy" id="copyLinkBtn" type="button">
+            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            <span class="share-name">Copy</span>
+          </button>
+        </div>
+      </div>
 
-        })();
-    </script>
+      <div class="footer-message">
+        <span class="divider-mini"></span>
+        <span>✨ Book your stay at Mondello Beach Vitamin Sea ✨</span>
+      </div>
+    </div>
+  </div>
 
+  <!-- FULLSCREEN OVERLAY -->
+  <div class="fullscreen-overlay" id="fullscreenOverlay">
+    <span class="fullscreen-close" id="fullscreenClose">&times;</span>
+    <img id="fullscreenImg" src="" alt="Fullscreen view" />
+  </div>
+
+  <script>
+    (function() {
+      // VIEWER COUNTER
+      const viewerCountEl = document.getElementById('viewerCount');
+      let count = parseInt(localStorage.getItem('mondelloViewerCount')) || 0;
+      if (!sessionStorage.getItem('mondelloViewed')) {
+        count++;
+        localStorage.setItem('mondelloViewerCount', count);
+        sessionStorage.setItem('mondelloViewed', 'true');
+      }
+      viewerCountEl.textContent = count;
+
+      // SLIDESHOW
+      const heroContainer = document.getElementById('heroContainer');
+      const images = heroContainer.querySelectorAll('img:not(.fallback)');
+      const indicatorsContainer = document.getElementById('slideIndicators');
+      let currentIndex = 0;
+      let slideInterval = null;
+
+      if (images.length > 0) {
+        images.forEach((img, index) => {
+          const dot = document.createElement('button');
+          dot.className = 'slide-dot' + (index === 0 ? ' active' : '');
+          dot.setAttribute('data-index', index);
+          dot.addEventListener('click', function(e) {
+            e.stopPropagation();
+            goToSlide(index);
+          });
+          indicatorsContainer.appendChild(dot);
+        });
+
+        const dots = indicatorsContainer.querySelectorAll('.slide-dot');
+
+        function goToSlide(index) {
+          images.forEach(img => img.classList.remove('active'));
+          dots.forEach(d => d.classList.remove('active'));
+          images[index].classList.add('active');
+          dots[index].classList.add('active');
+          currentIndex = index;
+        }
+
+        function nextSlide() {
+          const nextIndex = (currentIndex + 1) % images.length;
+          goToSlide(nextIndex);
+        }
+
+        function startSlideshow() {
+          if (slideInterval) clearInterval(slideInterval);
+          slideInterval = setInterval(nextSlide, 3500);
+        }
+
+        heroContainer.addEventListener('mouseenter', () => {
+          if (slideInterval) clearInterval(slideInterval);
+        });
+        heroContainer.addEventListener('mouseleave', () => {
+          startSlideshow();
+        });
+
+        let touchTimeout;
+        heroContainer.addEventListener('touchstart', () => {
+          if (slideInterval) clearInterval(slideInterval);
+        });
+        heroContainer.addEventListener('touchend', () => {
+          clearTimeout(touchTimeout);
+          touchTimeout = setTimeout(startSlideshow, 3000);
+        });
+
+        goToSlide(0);
+        startSlideshow();
+      }
+
+      // FULLSCREEN
+      const overlay = document.getElementById('fullscreenOverlay');
+      const fullImg = document.getElementById('fullscreenImg');
+      const closeBtn = document.getElementById('fullscreenClose');
+
+      heroContainer.addEventListener('click', function(e) {
+        const activeImg = this.querySelector('img.active');
+        if (activeImg && activeImg.src) {
+          fullImg.src = activeImg.src;
+          overlay.classList.add('open');
+        }
+      });
+
+      closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        overlay.classList.remove('open');
+      });
+
+      overlay.addEventListener('click', function(e) {
+        if (e.target === this) overlay.classList.remove('open');
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') overlay.classList.remove('open');
+      });
+
+      // ADD CONTACT - vCard
+      function generateVCard() {
+        const name = 'Katie';
+        const phone = '+393895592579';
+        const email = 'katkaockovicova@yahoo.co.uk';
+        const instagram = '@mondello_beach_vitamin_sea';
+        const address = 'Via Carbone, 73;90151 Palermo PA;Italia';
+        const url = 'https://airbnb.com/h/mondellobeachvitaminsea';
+        return 'BEGIN:VCARD\nVERSION:4.0\nFN:' + name + '\nN:;' + name +
+          ';;;\nTEL;TYPE=cell:' + phone + '\nEMAIL:' + email +
+          '\nADR;TYPE=home:;;' + address + '\nURL;TYPE=booking:' + url +
+          '\nX-SOCIAL;TYPE=instagram:' + instagram + '\nEND:VCARD\n';
+      }
+
+      document.getElementById('addContactBtn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        try {
+          const blob = new Blob([generateVCard()], { type: 'text/vcard;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'Mondello_Beach_Katie.vcf';
+          document.body.appendChild(link);
+          link.click();
+          setTimeout(() => { document.body.removeChild(link);
+            URL.revokeObjectURL(url); }, 1000);
+        } catch (err) {
+          alert('Please copy contact details manually:\n\nKatie\n+39 389 559 2579\nkatkaockovicova@yahoo.co.uk');
+        }
+        const btn = this;
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Saved!';
+        setTimeout(() => { btn.innerHTML = orig; }, 2500);
+      });
+
+      // COPY LINK
+      const pageUrl = 'https://welcometoarma.github.io/digital_business_card/';
+      document.getElementById('copyLinkBtn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(pageUrl).then(() => {
+            const orig = this.innerHTML;
+            this.innerHTML = '✅ Copied!';
+            setTimeout(() => { this.innerHTML = orig; }, 2000);
+          });
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = pageUrl;
+          ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          try {
+            document.execCommand('copy');
+            const orig = this.innerHTML;
+            this.innerHTML = '✅ Copied!';
+            setTimeout(() => { this.innerHTML = orig; }, 2000);
+          } catch (e) { alert('Copy manually: ' + pageUrl); }
+          document.body.removeChild(ta);
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
