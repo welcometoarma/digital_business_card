@@ -574,23 +574,43 @@
 
   <script>
     (function() {
-      // ===== VIEWER COUNTER - persistent across all visits =====
+      // ============================================================
+      //  VIEW COUNTER — ACCURATE & PERSISTENT
+      // ============================================================
       const viewerCountEl = document.getElementById('viewerCount');
-      const STORAGE_KEY = 'mondelloViewerCount';
-      const SESSION_KEY = 'mondelloViewed';
+      const STORAGE_KEY = 'mondello_total_views';
+      const SESSION_KEY = 'mondello_viewed_session';
+      const VISITOR_KEY = 'mondello_visitor_id';
 
-      let count = parseInt(localStorage.getItem(STORAGE_KEY)) || 0;
-      
-      // Only increment if this browser session hasn't counted yet
-      if (!sessionStorage.getItem(SESSION_KEY)) {
-        count++;
-        localStorage.setItem(STORAGE_KEY, count);
-        sessionStorage.setItem(SESSION_KEY, 'true');
+      // Generate a unique visitor ID (stored in localStorage)
+      let visitorId = localStorage.getItem(VISITOR_KEY);
+      if (!visitorId) {
+        visitorId = 'v_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+        localStorage.setItem(VISITOR_KEY, visitorId);
       }
-      
-      viewerCountEl.textContent = count;
 
-      // ===== SLIDESHOW =====
+      // Get current view count
+      let totalViews = parseInt(localStorage.getItem(STORAGE_KEY)) || 0;
+
+      // Check if this session has already been counted
+      const sessionKey = SESSION_KEY + '_' + visitorId;
+      if (!sessionStorage.getItem(sessionKey)) {
+        // New visit: increment counter
+        totalViews++;
+        localStorage.setItem(STORAGE_KEY, totalViews);
+        // Mark this session as counted
+        sessionStorage.setItem(sessionKey, 'true');
+      }
+
+      // Display the count
+      viewerCountEl.textContent = totalViews;
+
+      // Log for debugging (remove in production)
+      console.log('Visitor ID:', visitorId, 'Total Views:', totalViews);
+
+      // ============================================================
+      //  SLIDESHOW
+      // ============================================================
       const heroContainer = document.getElementById('heroContainer');
       const images = heroContainer.querySelectorAll('img:not(.fallback)');
       const indicatorsContainer = document.getElementById('slideIndicators');
@@ -621,7 +641,9 @@
         goToSlide(0); startSlideshow();
       }
 
-      // ===== FULLSCREEN =====
+      // ============================================================
+      //  FULLSCREEN
+      // ============================================================
       const overlay = document.getElementById('fullscreenOverlay');
       const fullImg = document.getElementById('fullscreenImg');
       const closeBtn = document.getElementById('fullscreenClose');
@@ -633,7 +655,9 @@
       overlay.addEventListener('click', function(e) { if (e.target === this) overlay.classList.remove('open'); });
       document.addEventListener('keydown', function(e) { if (e.key === 'Escape') overlay.classList.remove('open'); });
 
-      // ===== ADD CONTACT - vCard =====
+      // ============================================================
+      //  ADD CONTACT - vCard
+      // ============================================================
       function generateVCard() {
         const name = 'Katie', phone = '+393895592579', email = 'katkaockovicova@yahoo.co.uk';
         const instagram = '@mondello_beach_vitamin_sea', address = 'Via Carbone, 73;90151 Palermo PA;Italia';
@@ -653,7 +677,9 @@
         const btn = this; const orig = btn.innerHTML; btn.innerHTML = '✅ Saved!'; setTimeout(() => { btn.innerHTML = orig; }, 2500);
       });
 
-      // ===== COPY LINK =====
+      // ============================================================
+      //  COPY LINK
+      // ============================================================
       const pageUrl = 'https://welcometoarma.github.io/digital_business_card/';
       document.getElementById('copyLinkBtn').addEventListener('click', function(e) {
         e.stopPropagation();
@@ -668,53 +694,49 @@
         }
       });
 
-      // ===== BACK TO MAIN PAGE =====
-      // This is the main URL that we want to return to
+      // ============================================================
+      //  BACK TO MAIN PAGE
+      // ============================================================
       const MAIN_URL = 'https://welcometoarma.github.io/digital_business_card/';
       const backBtn = document.getElementById('backToCardBtn');
 
-      // Function to return to main page
       function goToMainPage() {
         window.location.href = MAIN_URL;
       }
 
-      // Back button: navigate to main page
       backBtn.addEventListener('click', function(e) {
         e.preventDefault();
         goToMainPage();
       });
 
-      // Show floating button when user navigates away (tab switch or external link)
       document.addEventListener('visibilitychange', function() {
         if (document.hidden) {
           backBtn.classList.add('visible');
         } else {
-          // When coming back, keep it visible for a moment then hide
           setTimeout(() => { 
             if (!document.hidden) backBtn.classList.remove('visible'); 
           }, 500);
         }
       });
 
-      // Show when any external link is clicked (target="_blank")
       document.querySelectorAll('a[target="_blank"]').forEach(link => {
         link.addEventListener('click', function(e) {
           backBtn.classList.add('visible');
-          // Keep it visible for a while in case user returns quickly
           setTimeout(() => {
             if (!document.hidden) backBtn.classList.remove('visible');
           }, 8000);
         });
       });
 
-      // Hide when window gains focus
       window.addEventListener('focus', function() {
         setTimeout(() => { 
           if (!document.hidden) backBtn.classList.remove('visible'); 
         }, 300);
       });
 
-      // ===== FULL HEIGHT on mobile =====
+      // ============================================================
+      //  FULL HEIGHT on mobile
+      // ============================================================
       function setFullHeight() {
         const vh = window.innerHeight;
         document.documentElement.style.setProperty('--vh', vh + 'px');
@@ -723,8 +745,9 @@
       setFullHeight();
       window.addEventListener('resize', setFullHeight);
 
-      // ===== Also add a direct "Back to Main" link in the footer =====
-      // We'll add a small link at the bottom of the card
+      // ============================================================
+      //  Footer "Back to Main" link
+      // ============================================================
       const footerMessage = document.querySelector('.footer-message');
       if (footerMessage) {
         const backLink = document.createElement('div');
