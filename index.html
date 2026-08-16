@@ -575,38 +575,27 @@
   <script>
     (function() {
       // ============================================================
-      //  VIEW COUNTER — ACCURATE & PERSISTENT
+      //  VIEW COUNTER — COUNTS EVERY PAGE OPEN
       // ============================================================
       const viewerCountEl = document.getElementById('viewerCount');
       const STORAGE_KEY = 'mondello_total_views';
       const SESSION_KEY = 'mondello_viewed_session';
-      const VISITOR_KEY = 'mondello_visitor_id';
 
-      // Generate a unique visitor ID (stored in localStorage)
-      let visitorId = localStorage.getItem(VISITOR_KEY);
-      if (!visitorId) {
-        visitorId = 'v_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-        localStorage.setItem(VISITOR_KEY, visitorId);
-      }
-
-      // Get current view count
+      // Get current total from localStorage
       let totalViews = parseInt(localStorage.getItem(STORAGE_KEY)) || 0;
-
-      // Check if this session has already been counted
-      const sessionKey = SESSION_KEY + '_' + visitorId;
-      if (!sessionStorage.getItem(sessionKey)) {
-        // New visit: increment counter
+      
+      // Check if this browser session has already been counted
+      // Using sessionStorage which clears when browser/tab is closed
+      if (!sessionStorage.getItem(SESSION_KEY)) {
+        // New session: increment the counter
         totalViews++;
         localStorage.setItem(STORAGE_KEY, totalViews);
         // Mark this session as counted
-        sessionStorage.setItem(sessionKey, 'true');
+        sessionStorage.setItem(SESSION_KEY, 'true');
       }
 
       // Display the count
       viewerCountEl.textContent = totalViews;
-
-      // Log for debugging (remove in production)
-      console.log('Visitor ID:', visitorId, 'Total Views:', totalViews);
 
       // ============================================================
       //  SLIDESHOW
