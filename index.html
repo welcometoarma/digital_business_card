@@ -485,7 +485,7 @@
   <!-- Floating back button -->
   <a href="#" class="back-to-card" id="backToCardBtn">
     <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-    Back
+    Back to Main
   </a>
 
   <div class="card" id="mainCard">
@@ -574,17 +574,23 @@
 
   <script>
     (function() {
-      // VIEWER COUNTER
+      // ===== VIEWER COUNTER - persistent across all visits =====
       const viewerCountEl = document.getElementById('viewerCount');
-      let count = parseInt(localStorage.getItem('mondelloViewerCount')) || 0;
-      if (!sessionStorage.getItem('mondelloViewed')) {
+      const STORAGE_KEY = 'mondelloViewerCount';
+      const SESSION_KEY = 'mondelloViewed';
+
+      let count = parseInt(localStorage.getItem(STORAGE_KEY)) || 0;
+      
+      // Only increment if this browser session hasn't counted yet
+      if (!sessionStorage.getItem(SESSION_KEY)) {
         count++;
-        localStorage.setItem('mondelloViewerCount', count);
-        sessionStorage.setItem('mondelloViewed', 'true');
+        localStorage.setItem(STORAGE_KEY, count);
+        sessionStorage.setItem(SESSION_KEY, 'true');
       }
+      
       viewerCountEl.textContent = count;
 
-      // SLIDESHOW
+      // ===== SLIDESHOW =====
       const heroContainer = document.getElementById('heroContainer');
       const images = heroContainer.querySelectorAll('img:not(.fallback)');
       const indicatorsContainer = document.getElementById('slideIndicators');
@@ -615,7 +621,7 @@
         goToSlide(0); startSlideshow();
       }
 
-      // FULLSCREEN
+      // ===== FULLSCREEN =====
       const overlay = document.getElementById('fullscreenOverlay');
       const fullImg = document.getElementById('fullscreenImg');
       const closeBtn = document.getElementById('fullscreenClose');
@@ -627,7 +633,7 @@
       overlay.addEventListener('click', function(e) { if (e.target === this) overlay.classList.remove('open'); });
       document.addEventListener('keydown', function(e) { if (e.key === 'Escape') overlay.classList.remove('open'); });
 
-      // ADD CONTACT - vCard
+      // ===== ADD CONTACT - vCard =====
       function generateVCard() {
         const name = 'Katie', phone = '+393895592579', email = 'katkaockovicova@yahoo.co.uk';
         const instagram = '@mondello_beach_vitamin_sea', address = 'Via Carbone, 73;90151 Palermo PA;Italia';
@@ -647,7 +653,7 @@
         const btn = this; const orig = btn.innerHTML; btn.innerHTML = '✅ Saved!'; setTimeout(() => { btn.innerHTML = orig; }, 2500);
       });
 
-      // COPY LINK
+      // ===== COPY LINK =====
       const pageUrl = 'https://welcometoarma.github.io/digital_business_card/';
       document.getElementById('copyLinkBtn').addEventListener('click', function(e) {
         e.stopPropagation();
@@ -662,45 +668,53 @@
         }
       });
 
-      // === BACK TO CARD: show floating button when navigating away ===
+      // ===== BACK TO MAIN PAGE =====
+      // This is the main URL that we want to return to
+      const MAIN_URL = 'https://welcometoarma.github.io/digital_business_card/';
       const backBtn = document.getElementById('backToCardBtn');
-      
-      // Show when page is hidden (user switched tabs or app)
+
+      // Function to return to main page
+      function goToMainPage() {
+        window.location.href = MAIN_URL;
+      }
+
+      // Back button: navigate to main page
+      backBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        goToMainPage();
+      });
+
+      // Show floating button when user navigates away (tab switch or external link)
       document.addEventListener('visibilitychange', function() {
         if (document.hidden) {
           backBtn.classList.add('visible');
         } else {
-          setTimeout(() => { backBtn.classList.remove('visible'); }, 400);
+          // When coming back, keep it visible for a moment then hide
+          setTimeout(() => { 
+            if (!document.hidden) backBtn.classList.remove('visible'); 
+          }, 500);
         }
       });
 
-      // Show when any external link is clicked
+      // Show when any external link is clicked (target="_blank")
       document.querySelectorAll('a[target="_blank"]').forEach(link => {
         link.addEventListener('click', function(e) {
           backBtn.classList.add('visible');
+          // Keep it visible for a while in case user returns quickly
           setTimeout(() => {
             if (!document.hidden) backBtn.classList.remove('visible');
           }, 8000);
         });
       });
 
-      // Back button: bring user back to this page (focus)
-      backBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        window.focus();
-        // Try to bring the tab to front (works in some browsers)
-        if (window.focus) window.focus();
-        // Also scroll card to top
-        document.getElementById('mainCard').scrollTop = 0;
-        this.classList.remove('visible');
-      });
-
       // Hide when window gains focus
       window.addEventListener('focus', function() {
-        setTimeout(() => { backBtn.classList.remove('visible'); }, 300);
+        setTimeout(() => { 
+          if (!document.hidden) backBtn.classList.remove('visible'); 
+        }, 300);
       });
 
-      // Ensure full height on mobile
+      // ===== FULL HEIGHT on mobile =====
       function setFullHeight() {
         const vh = window.innerHeight;
         document.documentElement.style.setProperty('--vh', vh + 'px');
@@ -708,6 +722,22 @@
       }
       setFullHeight();
       window.addEventListener('resize', setFullHeight);
+
+      // ===== Also add a direct "Back to Main" link in the footer =====
+      // We'll add a small link at the bottom of the card
+      const footerMessage = document.querySelector('.footer-message');
+      if (footerMessage) {
+        const backLink = document.createElement('div');
+        backLink.style.cssText = 'margin-top: 6px; text-align: center;';
+        backLink.innerHTML = `<a href="#" id="footerBackLink" style="color: var(--lemon-lt); opacity: 0.5; font-size: 8px; text-decoration: none; letter-spacing: 0.1em; font-weight: 600; text-transform: uppercase;">← Back to Main Page</a>`;
+        footerMessage.appendChild(backLink);
+        
+        document.getElementById('footerBackLink').addEventListener('click', function(e) {
+          e.preventDefault();
+          goToMainPage();
+        });
+      }
+
     })();
   </script>
 </body>
