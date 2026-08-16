@@ -1,0 +1,25 @@
+{
+  "name": "Mondello Beach Vitamin Sea",
+  "short_name": "Mondello Beach",
+  "description": "Digital business card for Mondello Beach Vitamin Sea, Palermo, Sicily",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0B4F6C",
+  "theme_color": "#0B4F6C",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
